@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Directoryy</title>
+    <link rel="stylesheet" href="{% static 'main_app/main.css' %}">
+</head>
+<body>
+    <main>
+        <h1>Main Directory</h1>
+        {% for person in people %}
+            <section>
+                <img src="{{ person.image }}">
+                <h2>{{ person.first_name }} {{ person.last_name }}</h2>
+                <p class="person-title">{{ person.title }}</p>
+                <p><a class="person-email" href="mailto:{{ person.email }}">{{ person.email }}</a></p>
+            </section>
+        {% endfor %}
+    </main>
+</body>
+</html>
