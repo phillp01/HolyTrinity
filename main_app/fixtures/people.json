@@ -7,7 +7,8 @@
       "last_name":"Stark",
       "email":"tony@stark.com",
       "title":"Iron Man",
-      "image":"http://fillmurray.com/200/200"
+      "image":"http://fillmurray.com/200/200",
+      "slug":"tony-stark"
     }
   },
   {
@@ -18,7 +19,8 @@
       "last_name":"Murray",
       "email":"bill@murray.com",
       "title":"Peter Venkman",
-      "image":"http://fillmurray.com/g/200/200"
+      "image":"http://fillmurray.com/g/200/200",
+      "slug":"bill-murray"
     }
   },
   {
@@ -29,7 +31,8 @@
       "last_name":"Cage",
       "email":"nick@cage.com",
       "title":"Left Las Vegas",
-      "image":"http://www.placecage.com/c/200/200"
+      "image":"http://www.placecage.com/c/200/200",
+      "slug":"nick-cage"
     }
   },
   {
@@ -40,7 +43,8 @@
       "last_name":"Seagal",
       "email":"Steven@Seagal.com",
       "title":"Casey Ryback",
-      "image":"http://stevensegallery.com/200/200"
+      "image":"http://stevensegallery.com/200/200",
+      "slug":"steven-seagal"
     }
   },
   {
@@ -51,7 +55,8 @@
       "last_name":"Calm",
       "email":"nick@calm.com",
       "title":"Chilled Cage",
-      "image":"http://www.placecage.com/200/200"
+      "image":"http://www.placecage.com/200/200",
+      "slug":"cage-calm"
     }
   }
 ]
