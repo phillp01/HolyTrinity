@@ -41,3 +41,11 @@ p   {
 .person-email{
     font-size: 0.8em;
 }
+
+.card-body  {
+    padding:0!important;
+}
+
+table{
+    padding:20px;
+}
