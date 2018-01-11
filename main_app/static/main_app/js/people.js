@@ -45,6 +45,10 @@ $(function () {
   $("#people-table").on("click", ".js-update-person", loadForm);
   $("#modal-person").on("submit", ".js-person-update-form", saveForm);
 
+// Delete person
+$("#people-table").on("click", ".js-delete-person", loadForm);
+$("#modal-person").on("submit", ".js-person-delete-form", saveForm);
+
 
   // $(".js-create-person").click(function () {
   //   var btn = $(this);
