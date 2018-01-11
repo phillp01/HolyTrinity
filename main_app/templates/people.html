@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {%  block extra_js %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -14,10 +12,17 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            People<a href="#"><i class="float-right fal fa-user-plus"></i></a>
+                            People
+{#                            <a href="#" class="js-create-person" title="Add a New Person"><i class="float-right fal fa-user-plus"></i></a>#}
+                            <button type="button"
+                                class="btn btn-primary float-right js-create-person"
+                                data-url="{% url 'person_create' %}">
+                                <span class="fal fa-user-plus"></span>
+                                New Person
+                            </button>
                         </div>
                         <div class="card-body">
-                            <table class="table table-sm">
+                            <table class="table table-sm" id="people-table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -28,43 +33,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for person in people %}
-                                    <tr>
-                                        <th>{{ person.pk }}</th>
-                                        <td>{{ person.first_name }}</td>
-                                        <td>{{ person.last_name }}</td>
-                                        <td>{{ person.email }}</td>
-                                        <td>{{ person.church }}</td>
-                                        <td><a href="{% url 'edit' person.slug %}"  data-target="#exampleModal"><i class="fal fa-edit"></i></a></td>
-                                        <td>
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                              Launch demo modal
-                                            </button>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                              <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                  </div>
-                                                  <div class="modal-body">
-                                                    ...
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                   {% include 'includes/partial_people_list.html' %}
                                 </tbody>
                             </table>
                         </div>
@@ -74,47 +43,14 @@
         </div>
     </main>
 
-    <section>
-    <h1>Items list</h1>
-    <!-- Modal -->
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    </div><!-- /.modal -->
+  <!-- THE MODAL WE WILL BE USING -->
+ <div class="modal fade" id="modal-person">
+     <div class="modal-dialog">
+        <div class="modal-content">
 
-    <table class="table table-bordered table-hovered "cellspacing='0'>
-        <tr>
-            <th>Item</th>
-            <th>Actions</th>
-        </tr>
-        {% for loan in object_list %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>
-                    <a class="fa fa-pencil" data-toggle="modal" href="{% url 'item_edit' item.id %}" data-target="#modal" title="edit item" data-tooltip></a> |
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-</section>
+        </div>
+     </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 {% endblock %}
