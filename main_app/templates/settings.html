@@ -18,6 +18,21 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-header">
+                            Church Roles
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for role in roles %}
+                                    <li class="list-group-item">{{ role.church_role }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 {% endblock %}

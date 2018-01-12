@@ -11,6 +11,17 @@ class Church(models.Model):
     class Meta:
         verbose_name_plural = "Churches"
 
+
+class Role(models.Model):
+    church_role = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.church_role
+
+    class Meta:
+        verbose_name_plural = "Roles"
+
+
 class Person(models.Model):
     title = models.CharField(max_length=100)
     first_name = models.CharField(max_length=50)
@@ -18,6 +29,7 @@ class Person(models.Model):
     slug = models.SlugField(max_length=50, blank=True)
     email = models.EmailField(max_length=100)
     church = models.ForeignKey(Church, on_delete=models.CASCADE, related_name='church')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='role', default=1)
 
     class Meta:
         verbose_name_plural = "People"

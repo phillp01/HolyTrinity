@@ -12,4 +12,5 @@ class PersonForm(forms.ModelForm):
             'email',
             'title',
             'church',
+            'role',
         ]

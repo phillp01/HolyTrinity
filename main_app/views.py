@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from .models import Person, Church
+from .models import Person, Church, Role
 from .forms import PersonForm
 from django.forms.models import model_to_dict
 from django.urls import reverse
@@ -21,7 +21,9 @@ def detail(request, slug):
 
 def settings(request):
     churches = Church.objects.all()
-    return render(request, 'settings.html', {'churches': churches})
+    roles = Role.objects.all()
+    context = {'churches': churches, 'roles': roles}
+    return render(request, 'settings.html', context)
 
 
 def people(request):

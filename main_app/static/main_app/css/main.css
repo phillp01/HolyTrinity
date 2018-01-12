@@ -1,5 +1,8 @@
 /* main.css */
 
+.container  {
+    padding-top:3%;
+}
 main    {
     margin: 0 auto;
 }
@@ -43,7 +46,8 @@ p   {
 }
 
 .card-body  {
-    padding:0!important;
+    padding:10px!important;
+
 }
 
 table{

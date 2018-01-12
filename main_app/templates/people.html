@@ -9,17 +9,20 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header">
                             People
-{#                            <a href="#" class="js-create-person" title="Add a New Person"><i class="float-right fal fa-user-plus"></i></a>#}
                             <button type="button"
                                 class="btn btn-primary float-right js-create-person"
                                 data-url="{% url 'person_create' %}">
-                                <span class="fal fa-user-plus"></span>
-                                New Person
+                                <span class="fal fa-user-plus"></span> New Person
                             </button>
+
+{#                            <button type="button"#}
+{#                                    class="btn btn-warning btn-sm js-update-person">#}
+{#                                    <span class="fal fa-edit"></span> Edit#}
+{#                            </button>#}
                         </div>
                         <div class="card-body">
                             <table class="table table-sm" id="people-table">
@@ -30,6 +33,8 @@
                                         <th scope="col">Last</th>
                                         <th scope="col">E-Mail</th>
                                         <th scope="col">Church</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Update</th>
                                     </tr>
                                 </thead>
                                 <tbody>
