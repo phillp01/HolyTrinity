@@ -7,10 +7,10 @@ $(function () {
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
-        $("#modal-person").modal("show");
+        $("#modal-CRUD").modal("show");
       },
       success: function (data) {
-        $("#modal-person").find(".modal-content").html(data.html_form);
+        $("#modal-CRUD").find(".modal-content").html(data.html_form);
       }
     });
   };
@@ -24,11 +24,11 @@ $(function () {
       dataType: 'json',
       success: function (data) {
         if (data.form_is_valid) {
-          $("#people-table").find("tbody").html(data.html_people_list);
-          $("#modal-person").modal("hide");
+          $(".js-update-table").find("tbody").html(data.html_list);
+          $("#modal-CRUD").modal("hide");
         }
         else {
-          $("#modal-person").find(".modal-content").html(data.html_form);
+          $("#modal-CRUD").find(".modal-content").html(data.html_form);
         }
       }
     });
@@ -39,16 +39,27 @@ $(function () {
 
   // Create Person
   $(".js-create-person").click(loadForm);
-  $("#modal-person").on("submit", ".js-person-create-form", saveForm);
+  $("#modal-CRUD").on("submit", ".js-person-create-form", saveForm);
 
   // Update Person
   $("#people-table").on("click", ".js-update-person", loadForm);
-  $("#modal-person").on("submit", ".js-person-update-form", saveForm);
+  $("#modal-CRUD").on("submit", ".js-person-update-form", saveForm);
 
-// Delete person
-$("#people-table").on("click", ".js-delete-person", loadForm);
-$("#modal-person").on("submit", ".js-person-delete-form", saveForm);
+  // Delete person
+  $("#people-table").on("click", ".js-delete-person", loadForm);
+  $("#modal-CRUD").on("submit", ".js-person-delete-form", saveForm);
 
+  //Create Wedding
+  $(".js-create-wedding").click(loadForm);
+  $("#modal-CRUD").on("submit", ".js-wedding-create-form", saveForm);
+
+  // Update Wedding
+  $("#wedding-table").on("click", ".js-update-wedding", loadForm);
+  $("#modal-CRUD").on("submit", ".js-wedding-update-form", saveForm);
+
+  // Delete Wedding
+  $("#wedding-table").on("click", ".js-delete-wedding", loadForm);
+  $("#modal-CRUD").on("submit", ".js-wedding-delete-form", saveForm);
 
   // $(".js-create-person").click(function () {
   //   var btn = $(this);

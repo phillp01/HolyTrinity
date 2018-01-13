@@ -38,7 +38,7 @@ def save_person_form(request, form, template_name):
             form.save()
             data['form_is_valid'] = True
             all_people = Person.objects.all()
-            data['html_people_list'] = render_to_string('includes/partial_people_list.html', {'people':  all_people})
+            data['html_list'] = render_to_string('includes/partial_people_list.html', {'people':  all_people})
         else:
             data['form_is_valid'] = False
     context = {"form": form}
@@ -47,9 +47,11 @@ def save_person_form(request, form, template_name):
 
 
 def person_create(request):
+    print("Person_create view run")
     if request.method == 'POST':
         form = PersonForm(request.POST)
     else:
+        print("request is get")
         form = PersonForm()
     return save_person_form(request, form, 'includes/partial_person_create.html')
 
@@ -70,7 +72,7 @@ def person_delete(request, pk):
         person.delete()
         data['form_is_valid'] = True
         people = Person.objects.all()
-        data['html_people_list'] = render_to_string('includes/partial_people_list.html', {'people': people})
+        data['html_list'] = render_to_string('includes/partial_people_list.html', {'people': people})
     else:
         context = {'person': person}
         data['html_form'] = render_to_string('includes/partial_person_delete.html', context, request=request,)
