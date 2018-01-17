@@ -6,11 +6,11 @@
         <td>{{ wedding.time }}</td>
         <td>{{ wedding.minister }}</td>
         <td>
+            <a href="{% url 'wedding_update' wedding.id  %}">
             <button type="button"
-                    class="btn btn-warning btn-sm js-update-wedding"
-                    data-url="{% url 'wedding_update' wedding.id %}">
+                    class="btn btn-warning btn-sm">
                     <span class="fal fa-edit"></span> Edit
-            </button>
+            </button></a>
             <button type="button"
                     class="btn btn-danger btn-sm js-delete-wedding"
                     data-url="{% url 'wedding_delete' wedding.id %}">

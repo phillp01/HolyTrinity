@@ -1,23 +1,193 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 
 <main>
     <div class="container">
         <div class="row">
-            <div class="col-sm-8">
-                <div class="card">
-                    <div class="card-header">
-                        Wedding Details
-                    </div>
-                    <div class="card-body">
+            <div class="col-sm-12">
+                <form method="post" action="{% url 'wedding_update'  wedding.instance.pk %}" class="js-wedding-update-form" id="wedding-update-form">
+                    {% csrf_token %}
+                    <section class="wedding-form">
+                        <header>
+                            <h1>Wedding Details</h1><button type="submit" class="btn btn-primary">Save</button>
+                        </header>
+                        <div class="form-row">
+                            <div class="form-group col-md">
+                                <div class="form-group row">
+                                    <label for="{{ wedding.date.id_for_label }}" class="col-sm-5 col-form-label">Wedding {{ wedding.date.label }}</label>
+                                    <div class="col-sm-7">
+                                        {{ wedding.date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md">
+                                <div class="form-group row">
+                                    <label for="{{ wedding.time.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.time.label }}</label>
+                                    <div class="col-sm-9">
+                                        {{ wedding.time}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md">
+                                <div class="form-group row">
+                                    <label for="{{ wedding.church.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.church.label }}</label>
+                                    <div class="col-sm-7">
+                                        {{ wedding.church }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md">
+                                <div class="form-group row">
+                                    <label for="{{ wedding.service.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.service_type.label }}</label>
+                                    <div class="col-sm-7">
+                                        {{ wedding.service_type }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md">
+                                <div class="form-group row">
+                                    <label for="{{ wedding.minister.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.minister.label }}</label>
+                                    <div class="col-sm-9">
+                                        {{ wedding.minister }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md">
+                                <div class="form-group row">
+                                    <label for="{{ wedding.status.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.service_status.label }}</label>
+                                    <div class="col-sm-7">
+                                        {{ wedding.service_status }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                    </div>
-                </div>
+                    <section class="wedding-details">
+                        <ul class="nav nav-tabs" id="wedding-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="bride-groom-tab" data-toggle="tab" role="tab" href="#bride-groom"><h6>Bride and Groom</h6></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="wedding-details-tab" data-toggle="tab" role="tab" href="#wedding-details"><h6>Wedding Detail</h6></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade" id="bride-groom" role="tabpanel" aria-labelledby="home-tab">
+                                <h3>Bride and Groom Details</h3>
+                            </div>
+                            <div class="tab-pane fade show active" id="wedding-details" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <div class="form-group row">
+                                            <label for="{{ wedding.dear.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.dear.label }}</label>
+                                            <div class="col-sm-7">
+                                                {{ wedding.dear }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="form-group row">
+                                            <label for="{{ wedding.mail_title.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.mail_title.label }}</label>
+                                            <div class="col-sm-7">
+                                                {{ wedding.mail_title }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <div class="form-group row">
+                                            <label for="{{ wedding.banns_date.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.banns_date.label }}</label>
+                                            <div class="col-sm-7">
+                                                {{ wedding.banns_date }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="form-group row">
+                                            <label for="{{ wedding.by_license.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.by_license.label }}</label>
+                                            <div class="col-sm-7">
+                                                {{ wedding.by_license }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <section>
+                                <h5>Readings</h5><h6>Add</h6>
+                                    <table>
+                                        <tr>
+                                            <th>Bible</th>
+                                            <th>Other</th>
+                                            <th>Reader</th>
+                                        </tr>
+                                        {% include 'includes/partial_wedding_detail_readings_list.html' %}
+                                    </table>
+                                </section>
+
+                                <section>
+                                    <h6>Extras</h6>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.organ|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.organ.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.organ.label }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.choir|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.choir.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.choir.label }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.bells|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.bells.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.bells.label }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.flowers|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.flowers.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.flowers.label }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.video|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.video.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.video.label }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.cd|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.cd.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.cd.label }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="col-sm-4">{{ wedding.winter_heating|add_class:"form-check-input" }}</div>
+                                        <label for="{{ wedding.winter_heating.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.winter_heating.label }}</label>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h6>Recommended Options</h6>
+                                </section>
+
+                                <section>
+                                    <h6>Music</h6>
+                                </section>
+
+                                <section>
+                                    <h6>Flowers</h6>
+                                </section>
+                            </div>
+                        </div>
+                    </section>
+                </form>
             </div>
         </div>
     </div>
 </main>
+<script>
+    $( function() {
+        $( ".datepicker" ).datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    });
+</script>
 
 {% endblock %}

@@ -16,6 +16,7 @@ $(function () {
   };
 
   var saveForm = function () {
+    console.log("Save form run");
     var form = $(this);
     $.ajax({
       url: form.attr("action"),
@@ -55,7 +56,7 @@ $(function () {
 
   // Update Wedding
   $("#wedding-table").on("click", ".js-update-wedding", loadForm);
-  $("#modal-CRUD").on("submit", ".js-wedding-update-form", saveForm);
+  $("#wedding-update-form").on("submit", ".js-wedding-update-form", saveForm);
 
   // Delete Wedding
   $("#wedding-table").on("click", ".js-delete-wedding", loadForm);

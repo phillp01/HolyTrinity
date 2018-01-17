@@ -78,3 +78,17 @@ def person_delete(request, pk):
         data['html_form'] = render_to_string('includes/partial_person_delete.html', context, request=request,)
     return JsonResponse(data)
 
+
+def save_form(request, form, partial_create_template_name, partial_list_template_name,  modal):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            html_list = modal.objects.all()
+            data['html_list'] = render_to_string(partial_list_template_name, {'html_list':  html_list})
+        else:
+            data['form_is_valid'] = False
+    context = {"form": form}
+    data['html_form'] = render_to_string(partial_create_template_name, context, request=request)
+    return JsonResponse(data)

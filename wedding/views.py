@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 
-from .forms import WeddingForm
-from .models import Wedding
-
+from .forms import WeddingForm, ReadingForm
+from .models import Wedding, ServiceReadings
+from main_app.models import Person
+from main_app.views import save_form
 # Create your views here.
 
 def weddings(request):
@@ -12,13 +13,26 @@ def weddings(request):
     return render(request, 'weddings.html', {'html_list': weddings})
 
 
+def wedding_create(request):
+    if request.method == 'POST':
+        form = WeddingForm(request.POST)
+    else:
+        form = WeddingForm()
+        form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
+    return save_form(request, form, 'includes/partial_wedding_create.html', 'includes/partial_wedding_list.html', Wedding)
+
+
 def wedding_update(request, pk):
     wedding = get_object_or_404(Wedding, pk=pk)
     if request.method == 'POST':
-        form = WeddingForm(request.POST, instance=wedding)
+        wedding_form = WeddingForm(request.POST, instance=wedding)
+        if wedding_form.is_valid():
+            wedding_form.save()
     else:
-        form = WeddingForm(instance=wedding)
-    return save_form(request, form, 'includes/partial_wedding_update.html', 'includes/partial_wedding_list.html',  Wedding)
+        wedding_form = WeddingForm(instance=wedding)
+        # readings = ServiceReadings.objects.filter(wedding_id=pk)
+        readings = get_list_or_404(ServiceReadings, wedding_id=pk)
+    return render(request, 'wedding_details.html', {'wedding': wedding_form, 'readings': readings})
 
 
 def wedding_delete(request, pk):
@@ -32,27 +46,4 @@ def wedding_delete(request, pk):
     else:
         context = {'wedding': wedding}
         data['html_form'] = render_to_string('includes/partial_wedding_delete.html', context, request=request,)
-    return JsonResponse(data)
-
-
-def wedding_create(request):
-    if request.method == 'POST':
-        form = WeddingForm(request.POST)
-    else:
-        form = WeddingForm()
-    return save_form(request, form, 'includes/partial_wedding_create.html', 'includes/partial_wedding_list.html', Wedding)
-
-
-def save_form(request, form, partial_create_template_name, partial_list_template_name,  modal):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            html_list = modal.objects.all()
-            data['html_list'] = render_to_string(partial_list_template_name, {'html_list':  html_list})
-        else:
-            data['form_is_valid'] = False
-    context = {"form": form}
-    data['html_form'] = render_to_string(partial_create_template_name, context, request=request)
     return JsonResponse(data)
