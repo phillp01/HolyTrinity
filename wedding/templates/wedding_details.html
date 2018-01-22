@@ -134,45 +134,76 @@
                                 <section>
                                     <h6>Extras</h6>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.organ|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.organ.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.organ.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.organ|add_class:"form-check-input" }}</div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.choir|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.choir.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.choir.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.choir|add_class:"form-check-input" }}</div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.bells|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.bells.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.bells.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.bells|add_class:"form-check-input" }}</div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.flowers|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.flowers.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.flowers.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.flowers|add_class:"form-check-input" }}</div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.video|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.video.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.video.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.video|add_class:"form-check-input" }}</div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.cd|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.cd.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.cd.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.cd|add_class:"form-check-input" }}</div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <div class="col-sm-4">{{ wedding.winter_heating|add_class:"form-check-input" }}</div>
                                         <label for="{{ wedding.winter_heating.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.winter_heating.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.winter_heating|add_class:"form-check-input" }}</div>
                                     </div>
                                 </section>
 
                                 <section>
                                     <h6>Recommended Options</h6>
+                                    <div class="form-check form-check-inline">
+                                        <label for="{{ wedding.verger.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.verger.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.verger|add_class:"form-check-input" }}</div>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label for="{{ wedding.car_park_attendant.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.car_park_attendant.label }}</label>
+                                        <div class="col-sm-4">{{ wedding.car_park_attendant|add_class:"form-check-input" }}</div>
+                                    </div>
                                 </section>
 
                                 <section>
                                     <h6>Music</h6>
+                                    <table>
+                                        {% include 'includes/partial_wedding_detail_hymns.html' %}
+                                        <tr><th>Marches</th><td>{{ wedding.marches }}</td></tr>
+                                        <tr><th>Singing</th><td>{{ wedding.singing }}</td></tr>
+                                        <tr><th>Organist</th><td>{{ wedding.organist }}</td></tr>
+                                    </table>
                                 </section>
 
                                 <section>
                                     <h6>Flowers</h6>
+                                    <table>
+                                        <tr><th>Details:</th><td>{{ wedding.flowers_details }}</td></tr>
+                                        <tr><th>Contact:</th><td>{{ wedding.flowers_contact }}</td></tr>
+                                    </table>
+                                </section>
+
+                                <section>
+                                    <h6>Other Details</h6>
+                                    <table>
+                                        <tr><th>Estimate Number of Guests</th><td>{{ wedding.no_of_guests }}</td></tr>
+                                        <tr><th>Access for Wheelchairs</th><td>{{ wedding.wheelchair_access }}</td></tr>
+                                        <tr><th>Rehearsal</th><td>{{ wedding.rehearsal_date }}</td><th>Time</th><td>{{ wedding.rehearsal_time }}</td></tr>
+                                    </table>
+                                </section>
+
+                                <section>
+                                    <h6>Fees</h6>
                                 </section>
                             </div>
                         </div>

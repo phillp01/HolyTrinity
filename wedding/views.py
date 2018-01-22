@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 
 from .forms import WeddingForm, ReadingForm
-from .models import Wedding, ServiceReadings
+from .models import Wedding, ServiceReadings, ServiceHymns
 from main_app.models import Person
 from main_app.views import save_form
 # Create your views here.
@@ -30,9 +30,9 @@ def wedding_update(request, pk):
             wedding_form.save()
     else:
         wedding_form = WeddingForm(instance=wedding)
-        # readings = ServiceReadings.objects.filter(wedding_id=pk)
-        readings = get_list_or_404(ServiceReadings, wedding_id=pk)
-    return render(request, 'wedding_details.html', {'wedding': wedding_form, 'readings': readings})
+        readings = ServiceReadings.objects.filter(wedding_id=pk)
+        hymns = ServiceHymns.objects.filter(wedding_id=pk)
+    return render(request, 'wedding_details.html', {'wedding': wedding_form, 'readings': readings, 'hymns': hymns})
 
 
 def wedding_delete(request, pk):

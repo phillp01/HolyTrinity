@@ -24,6 +24,17 @@ class WeddingForm(forms.ModelForm):
             'video',
             'cd',
             'winter_heating',
+            'verger',
+            'car_park_attendant',
+            'marches',
+            'singing',
+            'organist',
+            'flowers_details',
+            'flowers_contact',
+            'no_of_guests',
+            'wheelchair_access',
+            'rehearsal_date',
+            'rehearsal_time',
         ]
         widgets = {
             'date': forms.DateInput(attrs={'class': 'datepicker'}),
