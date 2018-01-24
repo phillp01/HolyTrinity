@@ -10,8 +10,12 @@
                 data-url="{% url 'reading_update' reading.id %}">
                 <span class="glyphicon glyphicon-pencil"></span> Edit {{ wedding_id }}
             </button>
+            <button type="button"
+              class="btn btn-danger btn-sm js-delete-reading"
+              data-url="{% url 'reading_delete' reading.id %}">
+                <span class="glyphicon glyphicon-trash"></span> Delete
+            </button>
         </td>
-        <td>Remove</td>
     </tr>
     {% empty %}
     <tr>

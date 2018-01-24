@@ -50,3 +50,5 @@ class ReadingForm(forms.ModelForm):
             'reader',
             'wedding',
         ]
+        widgets = {'wedding': forms.HiddenInput()}
+

@@ -28,7 +28,7 @@ $(function () {
         if (data.form_is_valid) {
           console.log("Data is valid");
           // $(".js-update-table").find("tbody").html(data.html_reading_list);
-            console.log("RL=", data.html_reading_list)
+            console.log("RL=", data.html_reading_list);
           $("#" + form.attr("table-id")).find("tbody").html(data.html_reading_list);
           $("#modal-CRUD").modal("hide");
         }
@@ -74,6 +74,14 @@ $(function () {
   // Update Reading
   $("#readings-table").on("click", ".js-update-reading", loadForm);
   $("#modal-CRUD").on("submit", ".js-reading-update-form", saveForm);
+
+  // Delete person
+  $("#readings-table").on("click", ".js-delete-reading", loadForm);
+  $("#modal-CRUD").on("submit", ".js-reading-delete-form", saveForm);
+
+
+
+
 
   // $(".js-create-person").click(function () {
   //   var btn = $(this);

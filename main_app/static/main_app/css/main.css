@@ -80,7 +80,7 @@ p   {
 
 #readings-table {
     border:0px solid green;
-    width:75%;
+    width:auto%;
 }
 
 #readings-table tr{

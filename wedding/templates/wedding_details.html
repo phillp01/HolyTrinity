@@ -123,14 +123,16 @@
                             <div class="tab-pane fade show active" id="wedding-details" role="tabpanel" aria-labelledby="profile-tab">
 
                                 <section>
-                                    <h5>Readings</h5>
-                                    <p>
-                                        <button type="button" class="btn btn-primary js-create-reading"
-                                                data-url="{% url 'reading_create'  wedding_id %}">
+                                    <div class="d-flex p-2 justify-content-between">
+                                    <h4>Readings</h4>
+                                        <p>
+                                            <button type="button" class="btn btn-primary js-create-reading"
+                                                    data-url="{% url 'reading_create'  wedding_id %}">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                            New Reading {{ wedding_id }}
-                                        </button>
-                                    </p>
+                                            New Reading
+                                            </button>
+                                        </p>
+                                    </div>
                                     <table id="readings-table" class="table table-striped js-update-table">
                                         <thead class="thead-dark">
                                             <tr>
@@ -149,7 +151,7 @@
                                 </section>
 
                                 <section>
-                                    <h5>Extras</h5>
+                                    <h4>Extras</h4>
                                     <div class="form-check form-check-inline">
                                         <label for="{{ wedding.organ.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.organ.label }}</label>
                                         <div class="col-sm-4">{{ wedding.organ|add_class:"form-check-input" }}</div>
@@ -181,7 +183,7 @@
                                 </section>
 
                                 <section>
-                                    <h5>Recommended Options</h5>
+                                    <h4>Recommended Options</h4>
                                     <div class="form-check form-check-inline">
                                         <label for="{{ wedding.verger.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.verger.label }}</label>
                                         <div class="col-sm-4">{{ wedding.verger|add_class:"form-check-input" }}</div>
@@ -193,7 +195,16 @@
                                 </section>
 
                                 <section>
-                                    <h5>Music</h5>
+                                    <div class="d-flex p-2 justify-content-between">
+                                    <h4>Music</h4>
+                                        <p>
+                                            <button type="button" class="btn btn-primary js-create-hymn"
+                                                    data-url="{% url 'hymn_create'  wedding_id %}">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            Add hymn
+                                            </button>
+                                        </p>
+                                    </div>
                                     <table>
                                         {% include 'includes/partial_wedding_detail_hymns.html' %}
                                         <tr><th>Marches</th><td>{{ wedding.marches }}</td></tr>
