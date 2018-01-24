@@ -54,12 +54,12 @@ class Wedding(models.Model):
     rehearsal_time = models.TimeField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.date)
+        return str(self.id)
 
 
 class ServiceReadings(models.Model):
-    bible = models.CharField(max_length=50,null=True, blank=True)
-    other = models.CharField(max_length=50,null=True, blank=True)
+    bible = models.CharField(max_length=50, null=True, blank=True)
+    other = models.CharField(max_length=50, null=True, blank=True)
     reader = models.CharField(max_length=50)
     wedding = models.ForeignKey(Wedding, on_delete=models.CASCADE, related_name="wedding_reading")
 

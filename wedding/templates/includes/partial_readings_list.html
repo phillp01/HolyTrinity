@@ -1,0 +1,20 @@
+{% for reading in readings %}
+    <tr>
+        <th scope="row">Reading {{ forloop.counter }}</th>
+        <td>{{ reading.bible }}</td>
+        <td>{{ reading.other }}</td>
+        <td>{{ reading.reader }}</td>
+        <td>
+            <button type="button"
+                class="btn btn-warning btn-sm js-update-reading"
+                data-url="{% url 'reading_update' reading.id %}">
+                <span class="glyphicon glyphicon-pencil"></span> Edit {{ wedding_id }}
+            </button>
+        </td>
+        <td>Remove</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8" class="text-center bg-warning">No Readings</td>
+    </tr>
+{% endfor %}

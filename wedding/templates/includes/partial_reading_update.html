@@ -1,0 +1,18 @@
+{% load widget_tweaks %}
+
+<form method="post" action="{% url 'reading_update' form.instance.pk %}" class="js-reading-update-form" table-id="readings-table">
+  {% csrf_token %}
+  <div class="modal-header">
+      <h4 class="modal-title">Update Reading</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {% include 'includes/partial_reading_form.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+</form>
