@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from .models import Person, Church, Role
+from .models import Person, Church
 from .forms import PersonForm
+from django.http import HttpResponse
 from django.forms.models import model_to_dict
 from django.urls import reverse
 
@@ -32,23 +33,38 @@ def people(request):
 
 
 def save_person_form(request, form, template_name):
+    print("Save person form run")
     data = dict()
     if request.method == 'POST':
+        print("Save person is POST")
         if form.is_valid():
+            print("save person form - form is valid")
             form.save()
             data['form_is_valid'] = True
             all_people = Person.objects.all()
             data['html_list'] = render_to_string('includes/partial_people_list.html', {'people':  all_people})
         else:
+            print("save person form - form is NOT valid")
             data['form_is_valid'] = False
+    else:
+        print("Save person is get")
     context = {"form": form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
+
+    print("Context =", context)
+    print("Template name =", template_name)
+    # render_to_string('includes/partial_person_create.html', context, request=request)
+    data['html_form'] = render_to_string('includes/partial_person_create.html', context, request=request)
+    # data['html_form'] = "<div>hello</div>"
+
     return JsonResponse(data)
 
+    # return HttpResponse("HELLO")
 
-def person_create(request):
-    print("Person_create view run")
+
+def person_create(request, pk):
+    print("Person_create view run with wedding id", pk)
     if request.method == 'POST':
+        print("request is POST")
         form = PersonForm(request.POST)
     else:
         print("request is get")

@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='wedding',
             name='reading',
-            field=models.ForeignKey(default='1', on_delete=django.db.models.deletion.CASCADE, related_name='service_reading', to='wedding.ServiceReadings'),
+            field=models.ForeignKey(default='1', on_delete=django.db.models.deletion.CASCADE, related_name='service_reading', to='wedding.ServiceReading'),
             preserve_default=False,
         ),
     ]

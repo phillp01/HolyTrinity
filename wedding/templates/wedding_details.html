@@ -9,11 +9,37 @@
         <div class="row">
             <div class="col-sm-12">
                 <form method="post" action="{% url 'wedding_update'  wedding.instance.pk %}" class="js-wedding-update-form" id="wedding-update-form">
+                    <header>
+                        <div class="d-flex justify-content-end">
+                            <h1 class="mr-auto p-2">Wedding Detail</h1>
+                            <p>
+                                <button type="submit" class="ml-1 btn btn-primary">
+                                <span class=" ICON "></span>
+                                Save
+                                </button>
+                            </p>
+                            <p>
+                                <button type="submit" class="ml-1 btn btn-primary">
+                                <span class=" ICON "></span>
+                                Reset
+                                </button>
+                            </p>
+                            <p>
+                                <button type="submit" class="ml-1 btn btn-primary">
+                                <span class=" ICON "></span>
+                                Cancel
+                                </button>
+                            </p>
+                            <p>
+                                <button type="submit" class="ml-1 btn btn-primary">
+                                <span class=" ICON "></span>
+                                Print
+                                </button>
+                            </p>
+                        </div>
+                    </header>
                     {% csrf_token %}
                     <section class="wedding-form">
-                        <header>
-                            <h1>Wedding Details</h1><button type="submit" class="btn btn-primary">Save</button>
-                        </header>
                         <div class="form-row labels-right">
                             <div class="form-group col-md">
                                 <div class="form-group row">
@@ -66,9 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
 
-                    <section class="labels-right">
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <div class="form-group row">
@@ -118,13 +142,96 @@
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade" id="bride-groom" role="tabpanel" aria-labelledby="home-tab">
-                                <h3>Bride and Groom Details</h3>
+                                <h3>Bride and Groom</h3>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <h5>Groom's Details</h5>
+                                            <table>
+                                                <tr>
+                                                    <th>Full Name</th><td>{{ groom.first_name }} {{ groom.last_name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Address</th><td></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Proof of Id.</th><td>{{ groom.proof }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tel / Mob</th><td>{{ groom.phone }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>E-Mail</th><td>{{ groom.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>DOB</th><td>{{ groom.dob }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Occupation</th><td>{{ groom.occupation }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Status</th><td>{{ groom.status }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nationality</th><td>{{ groom.nationality }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Parish</th><td>{{ groom.church }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm">
+                                            <h5>Bride's Details</h5>
+                                            <p>
+                                                <button type="button" class="btn btn-primary js-create-reading"
+                                                        data-url="{% url 'add_bride'  wedding_id %}">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                                Add Bride
+                                                </button>
+                                            </p>
+                                            <table>
+                                                <tr>
+                                                    <th>Full Name</th><td>{{ bride.first_name }} {{ bride.last_name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Address</th><td></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Proof of Id.</th><td>{{ bride.proof }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tel / Mob</th><td>{{ bride.phone }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>E-Mail</th><td>{{ bride.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>DOB</th><td>{{ bride.dob }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Occupation</th><td>{{ bride.occupation }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Status</th><td>{{ bride.status }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nationality</th><td>{{ bride.nationality }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Parish</th><td>{{ bride.church }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                             <div class="tab-pane fade show active" id="wedding-details" role="tabpanel" aria-labelledby="profile-tab">
 
                                 <section>
                                     <div class="d-flex p-2 justify-content-between">
-                                    <h4>Readings</h4>
+                                        <h4>Readings</h4>
                                         <p>
                                             <button type="button" class="btn btn-primary js-create-reading"
                                                     data-url="{% url 'reading_create'  wedding_id %}">
@@ -196,42 +303,51 @@
 
                                 <section>
                                     <div class="d-flex p-2 justify-content-between">
-                                    <h4>Music</h4>
+                                        <h4>Music</h4>
                                         <p>
                                             <button type="button" class="btn btn-primary js-create-hymn"
-                                                    data-url="{% url 'hymn_create'  wedding_id %}">
+                                                    data-url="{% url 'hymn_create' wedding_id %}">
                                             <span class="glyphicon glyphicon-plus"></span>
                                             Add hymn
                                             </button>
                                         </p>
                                     </div>
-                                    <table>
-                                        {% include 'includes/partial_wedding_detail_hymns.html' %}
-                                        <tr><th>Marches</th><td>{{ wedding.marches }}</td></tr>
-                                        <tr><th>Singing</th><td>{{ wedding.singing }}</td></tr>
-                                        <tr><th>Organist</th><td>{{ wedding.organist }}</td></tr>
+                                    <table id="hymns-table" class="table table-striped js-update-table">
+                                        <tbody>
+                                            {% include 'includes/partial_hymns_list.html' %}
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-striped js-update-table">
+                                        <tbody>
+                                            <tr><th>Marches</th><td>{{ wedding.marches }}</td></tr>
+                                            <tr><th>Singing</th><td>{{ wedding.singing }}</td></tr>
+                                            <tr><th>Organist</th><td>{{ wedding.organist }}</td></tr>
+                                        </tbody>
                                     </table>
                                 </section>
 
                                 <section>
-                                    <h5>Flowers</h5>
-                                    <table>
-                                        <tr><th>Details:</th><td>{{ wedding.flowers_details }}</td></tr>
-                                        <tr><th>Contact:</th><td>{{ wedding.flowers_contact }}</td></tr>
+                                    <h4>Flowers</h4>
+                                    <table class="table table-striped js-update-table">
+                                        <tbody>
+                                            <tr><th>Details:</th><td>{{ wedding.flowers_details }}</td></tr>
+                                            <tr><th>Contact:</th><td>{{ wedding.flowers_contact }}</td></tr>
+                                        </tbody>
                                     </table>
                                 </section>
 
                                 <section>
-                                    <h5>Other Details</h5>
-                                    <table>
-                                        <tr><th>Estimate Number of Guests</th><td>{{ wedding.no_of_guests }}</td></tr>
-                                        <tr><th>Access for Wheelchairs</th><td>{{ wedding.wheelchair_access }}</td></tr>
-                                        <tr><th>Rehearsal</th><td>{{ wedding.rehearsal_date }}</td><th>Time</th><td>{{ wedding.rehearsal_time }}</td></tr>
+                                    <h4>Other Details</h4>
+                                    <table id="testing-table" class="table table-striped js-update-table">
+                                        <tbody>
+                                            <tr><th>Estimate Number of Guests</th><td>{{ wedding.no_of_guests }}</td><th>Access for Wheelchairs</th><td>{{ wedding.wheelchair_access }}</td></tr>
+                                            <tr><th>Rehearsal</th><td>{{ wedding.rehearsal_date }}</td><th>Time</th><td>{{ wedding.rehearsal_time }}</td></tr>
+                                        </tbody>
                                     </table>
                                 </section>
 
                                 <section>
-                                    <h5>Fees</h5>
+                                    <h>Fees</h>
                                 </section>
                             </div>
                         </div>

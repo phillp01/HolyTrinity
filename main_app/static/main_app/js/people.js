@@ -10,6 +10,7 @@ $(function () {
         $("#modal-CRUD").modal("show");
       },
       success: function (data) {
+        console.log(data.html_form);
         $("#modal-CRUD").find(".modal-content").html(data.html_form);
       }
     });
@@ -75,12 +76,21 @@ $(function () {
   $("#readings-table").on("click", ".js-update-reading", loadForm);
   $("#modal-CRUD").on("submit", ".js-reading-update-form", saveForm);
 
-  // Delete person
+  // Delete Reading
   $("#readings-table").on("click", ".js-delete-reading", loadForm);
   $("#modal-CRUD").on("submit", ".js-reading-delete-form", saveForm);
 
+  // Create Hymn
+  $(".js-create-hymn").click(loadForm);
+  $("#modal-CRUD").on("submit", ".js-hymn-create-form", saveForm);
 
+  // Update Hymn
+  $("#hymns-table").on("click", ".js-update-hymn", loadForm);
+  $("#modal-CRUD").on("submit", ".js-hymn-update-form", saveForm);
 
+  // Delete Reading
+  $("#hymns-table").on("click", ".js-delete-hymn", loadForm);
+  $("#modal-CRUD").on("submit", ".js-hymn-delete-form", saveForm);
 
 
   // $(".js-create-person").click(function () {

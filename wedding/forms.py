@@ -1,5 +1,5 @@
 from django import forms
-from .models import Wedding, ServiceReadings
+from .models import Wedding, ServiceReading, ServiceHymn
 
 
 class WeddingForm(forms.ModelForm):
@@ -9,6 +9,8 @@ class WeddingForm(forms.ModelForm):
         fields = [
             'date',
             'time',
+            'bride',
+            'groom',
             'church',
             'minister',
             'service_type',
@@ -43,7 +45,7 @@ class WeddingForm(forms.ModelForm):
 class ReadingForm(forms.ModelForm):
 
     class Meta:
-        model = ServiceReadings
+        model = ServiceReading
         fields = [
             'bible',
             'other',
@@ -52,3 +54,13 @@ class ReadingForm(forms.ModelForm):
         ]
         widgets = {'wedding': forms.HiddenInput()}
 
+
+class HymnForm(forms.ModelForm):
+
+    class Meta:
+        model = ServiceHymn
+        fields = [
+            'hymn',
+            'wedding',
+        ]
+        widgets = {'wedding': forms.HiddenInput()}

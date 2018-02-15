@@ -11,6 +11,10 @@ main    {
     margin: 0 auto;
 }
 
+button  {
+
+}
+
 .container  {
     padding:2%;
     background:#fff;
@@ -20,7 +24,7 @@ main    {
 
 section {
     margin:2% 0;
-    border:2px solid lightgrey;
+    border:3px solid lightgrey;
     /*background-color:lightgrey;*/
     padding:1% 2%;
     border-radius: 5px;
@@ -80,7 +84,7 @@ p   {
 
 #readings-table {
     border:0px solid green;
-    width:auto%;
+    width:100%;
 }
 
 #readings-table tr{
@@ -88,3 +92,14 @@ p   {
 }
 
 /******************/
+
+tbody>tr:last-child{
+    border-bottom:1px solid #dee2e6;
+    /*border-bottom:1px solid red!important;*/
+    /*background-color: red!important;*/
+}
+
+tbody   {
+    border-left:1px solid #dee2e6;
+    border-right:1px solid #dee2e6;
+}

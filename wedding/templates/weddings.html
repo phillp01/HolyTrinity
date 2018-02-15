@@ -9,12 +9,14 @@
             <div class="col-sm-8">
                 <div class="card">
                     <div class="card-header">
-                        Weddings
-                        <button type="button"
-                            class="btn btn-primary float-right js-create-wedding"
-                            data-url="{% url 'wedding_create' %}">
-                            <span class="fal fa-user-plus"></span> New Wedding
-                        </button>
+                        <div class="d-flex p-2 justify-content-between">
+                            <h4>Weddings</h4>
+                            <button type="button"
+                                class="btn btn-primary float-right js-create-wedding"
+                                data-url="{% url 'wedding_create' %}">
+                                <span class="fal fa-user-plus"></span> New Wedding
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table class="table table-sm js-update-table" id="wedding-table">

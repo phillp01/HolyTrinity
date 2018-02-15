@@ -1,5 +1,5 @@
 from django.db import models
-from main_app.models import Church, Person
+from main_app.models import Church, Person, Ministers
 
 # Create your models here.
 
@@ -22,10 +22,12 @@ class ServiceStatus(models.Model):
 
 
 class Wedding(models.Model):
+    bride = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='bride_name')
+    groom = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='groom_name')
     date = models.DateField()
     time = models.TimeField()
     church = models.ForeignKey(Church, on_delete=models.CASCADE, related_name='wedding_church')
-    minister = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='minister', default=1)
+    minister = models.ForeignKey(Ministers, on_delete=models.CASCADE, related_name='minister', default=1)
     service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE, related_name='type', default=1)
     service_status = models.ForeignKey(ServiceStatus, on_delete=models.CASCADE, related_name='status', default=1)
     dear = models.CharField(max_length=20)
@@ -57,7 +59,7 @@ class Wedding(models.Model):
         return str(self.id)
 
 
-class ServiceReadings(models.Model):
+class ServiceReading(models.Model):
     bible = models.CharField(max_length=50, null=True, blank=True)
     other = models.CharField(max_length=50, null=True, blank=True)
     reader = models.CharField(max_length=50)
@@ -67,7 +69,7 @@ class ServiceReadings(models.Model):
         return str(self.reader)
 
 
-class ServiceHymns(models.Model):
+class ServiceHymn(models.Model):
     hymn = models.CharField(max_length=50)
     wedding = models.ForeignKey(Wedding, on_delete=models.CASCADE, related_name="wedding_hymn")
 

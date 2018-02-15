@@ -1,0 +1,22 @@
+{% for hymn in hymns %}
+    <tr>
+        <th>Hymn {{ forloop.counter }}</th>
+        <td>{{ hymn.hymn }}</td>
+        <td>
+            <button type="button"
+                class="btn btn-warning btn-sm js-update-hymn"
+                data-url="{% url 'hymn_update' hymn.id %}">
+                <span class="glyphicon glyphicon-pencil"></span> Edit {{ wedding_id }}
+            </button>
+            <button type="button"
+              class="btn btn-danger btn-sm js-delete-hymn"
+              data-url="{% url 'hymn_delete' hymn.id %}">
+                <span class="glyphicon glyphicon-trash"></span> Delete
+            </button>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8" class="text-center bg-warning">No Hymns</td>
+    </tr>
+{% endfor %}

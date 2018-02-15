@@ -8,7 +8,7 @@
             <button type="button"
                 class="btn btn-warning btn-sm js-update-reading"
                 data-url="{% url 'reading_update' reading.id %}">
-                <span class="glyphicon glyphicon-pencil"></span> Edit {{ wedding_id }}
+                <span class="glyphicon glyphicon-pencil"></span> Edit
             </button>
             <button type="button"
               class="btn btn-danger btn-sm js-delete-reading"
@@ -16,6 +16,7 @@
                 <span class="glyphicon glyphicon-trash"></span> Delete
             </button>
         </td>
+        <td>Remove</td>
     </tr>
     {% empty %}
     <tr>
