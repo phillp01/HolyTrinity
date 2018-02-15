@@ -1,0 +1,25 @@
+{% for wedding in html_list %}
+    <tr>
+        <th>{{ wedding.pk }}</th>
+        <td>{{ wedding.church }}</td>
+        <td>{{ wedding.date }}</td>
+        <td>{{ wedding.time }}</td>
+        <td>{{ wedding.minister }}</td>
+        <td>
+            <a href="{% url 'wedding_update' wedding.id  %}">
+            <button type="button"
+                    class="btn btn-warning btn-sm">
+                    <span class="fal fa-edit"></span> Edit
+            </button></a>
+            <button type="button"
+                    class="btn btn-danger btn-sm js-delete-wedding"
+                    data-url="{% url 'wedding_delete' wedding.id %}">
+                    <span class="fal fa-trash-alt"></span> Delete
+            </button>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" class="text-center bg-warning">No Weddings</td>
+    </tr>
+{% endfor %}

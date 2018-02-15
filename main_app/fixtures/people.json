@@ -7,8 +7,8 @@
       "last_name":"Stark",
       "email":"tony@stark.com",
       "title":"Iron Man",
-      "image":"http://fillmurray.com/200/200",
-      "slug":"tony-stark"
+      "slug":"tony-stark",
+      "church_id":"1"
     }
   },
   {
@@ -19,8 +19,8 @@
       "last_name":"Murray",
       "email":"bill@murray.com",
       "title":"Peter Venkman",
-      "image":"http://fillmurray.com/g/200/200",
-      "slug":"bill-murray"
+      "slug":"bill-murray",
+      "church_id":"1"
     }
   },
   {
@@ -31,8 +31,8 @@
       "last_name":"Cage",
       "email":"nick@cage.com",
       "title":"Left Las Vegas",
-      "image":"http://www.placecage.com/c/200/200",
-      "slug":"nick-cage"
+      "slug":"nick-cage",
+      "church_id":"2"
     }
   },
   {
@@ -43,8 +43,8 @@
       "last_name":"Seagal",
       "email":"Steven@Seagal.com",
       "title":"Casey Ryback",
-      "image":"http://stevensegallery.com/200/200",
-      "slug":"steven-seagal"
+      "slug":"steven-seagal",
+      "church_id":"2"
     }
   },
   {
@@ -55,8 +55,29 @@
       "last_name":"Calm",
       "email":"nick@calm.com",
       "title":"Chilled Cage",
-      "image":"http://www.placecage.com/200/200",
-      "slug":"cage-calm"
+      "slug":"cage-calm",
+      "church_id":"1"
+    }
+  },
+  {
+    "model":"main_app.Church",
+    "pk":1,
+    "fields":{
+      "church_name":"Saint Paul's"
+    }
+  },
+  {
+    "model":"main_app.Church",
+    "pk":2,
+    "fields":{
+      "church_name":"Champions"
+    }
+  },
+  {
+    "model":"main_app.Church",
+    "pk":3,
+    "fields":{
+      "church_name":"Brandhall"
     }
   }
 ]

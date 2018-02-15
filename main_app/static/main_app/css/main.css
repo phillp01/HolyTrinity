@@ -1,0 +1,105 @@
+/* main.css */
+
+body    {
+    background-color:#343A40!important;
+    font-size:16px;
+    padding:0;
+    margin:0;
+}
+
+main    {
+    margin: 0 auto;
+}
+
+button  {
+
+}
+
+.container  {
+    padding:2%;
+    background:#fff;
+    border-radius:0.25em;
+    margin-top:2%;
+}
+
+section {
+    margin:2% 0;
+    border:3px solid lightgrey;
+    /*background-color:lightgrey;*/
+    padding:1% 2%;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom:0.25em!important;
+}
+
+input, select, label   {
+    /*padding:0!important;*/
+    width:100%;
+    height:100%;
+}
+
+.form-check-inline label, .labels-right label {
+    text-align:right;
+}
+
+form    {
+    border:0px solid red;
+    padding:0.5em;
+}
+
+.form-check-input   {
+    height:20px;
+    width:20px;
+}
+
+img {
+    border-radius:80px;
+    width:40%;
+}
+
+h2  {
+    font-size:1.3em;
+    font-weight:bold;
+    padding:0;
+    margin:0;
+}
+
+p   {
+    padding:0;
+    margin:0;
+    padding-bottom:10px;
+}
+
+.person-email{
+    font-size: 0.8em;
+}
+
+.card-body  {
+    padding:10px!important;
+}
+
+/* Readings Table */
+
+#readings-table {
+    border:0px solid green;
+    width:100%;
+}
+
+#readings-table tr{
+    border-left:2px solid white;
+}
+
+/******************/
+
+tbody>tr:last-child{
+    border-bottom:1px solid #dee2e6;
+    /*border-bottom:1px solid red!important;*/
+    /*background-color: red!important;*/
+}
+
+tbody   {
+    border-left:1px solid #dee2e6;
+    border-right:1px solid #dee2e6;
+}
