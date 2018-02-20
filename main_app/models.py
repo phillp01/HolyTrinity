@@ -1,16 +1,23 @@
 from django.db import models
 from django.utils.text import slugify
 from datetime import date
+from decimal import Decimal
 
 
 class Church(models.Model):
-    church_name = models.CharField(max_length=50)
+	church_name = models.CharField(max_length=50)
+	statutory_current_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	statutory_upcoming_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	statutory_upcoming_date = models.DateField(null=True, blank=True)
+	banns_current_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	banns_upcoming_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	banns_upcoming_date = models.DateField(null=True, blank=True)
 
-    def __str__(self):
-        return self.church_name
+	def __str__(self):
+		return self.church_name
 
-    class Meta:
-        verbose_name_plural = "Churches"
+	class Meta:
+		verbose_name_plural = "Churches"
 
 
 class Ministers(models.Model):

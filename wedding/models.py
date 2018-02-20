@@ -1,6 +1,6 @@
 from django.db import models
 from main_app.models import Church, Person, Ministers
-
+from decimal import Decimal
 # Create your models here.
 
 
@@ -33,6 +33,10 @@ class Wedding(models.Model):
     dear = models.CharField(max_length=20)
     mail_title = models.CharField(max_length=30)
     banns_date = models.DateField()
+    bible = models.CharField(max_length=20,null=True, blank=True)
+    reader = models.CharField(max_length=20,null=True, blank=True,verbose_name='Bible Reader')
+    other = models.CharField(max_length=20,null=True, blank=True)
+    other_reader = models.CharField(max_length=50, null=True, blank=True,verbose_name='Other Reader')
     by_license = models.BooleanField(default=False)
     organ = models.BooleanField(default=False)
     choir = models.BooleanField(default=False)
@@ -55,14 +59,49 @@ class Wedding(models.Model):
     rehearsal_date = models.DateField(null=True, blank=True)
     rehearsal_time = models.TimeField(null=True, blank=True)
 
+    
     def __str__(self):
         return str(self.id)
+
+# class ChurchPrice(models.Model):
+	# price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'))	
+	# church = models.ForeignKey(Church, on_delete=models.CASCADE, related_name='churchId')
+	# fromDate = models.DateField(null=True, blank=True)
+	# toDate = models.DateField(null=True, blank=True)
+
+class additionalServices(models.Model):
+	
+	Additional_services_choices = (
+        ('By License', 'By License'),
+        ('Organ', 'Organ'),
+        ('Choir', 'Choir'),
+        ('Bells', 'Bells'),
+        ('Flowers', 'Flowers'),
+        ('Video', 'Video'),
+        ('Cd', 'Cd'),
+        ('Winter Heating', 'Winter Heating'),
+        ('Verger', 'Verger'),
+        ('Car Park Attendant', 'Car Park Attendant'),
+     
+    )
+	name = models.CharField(
+        max_length=100,
+        choices=Additional_services_choices,
+        blank=False,
+        verbose_name='Additional Services',
+        default=Decimal('0.0000')
+    )
+	current_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	upcoming_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	upcoming_date = models.DateField(null=True, blank=True)	
+
 
 
 class ServiceReading(models.Model):
     bible = models.CharField(max_length=50, null=True, blank=True)
     other = models.CharField(max_length=50, null=True, blank=True)
     reader = models.CharField(max_length=50)
+    other_reader = models.CharField(max_length=50, null=True, blank=True)
     wedding = models.ForeignKey(Wedding, on_delete=models.CASCADE, related_name="wedding_reading")
 
     def __str__(self):

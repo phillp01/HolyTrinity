@@ -18,6 +18,10 @@ class WeddingForm(forms.ModelForm):
             'dear',
             'mail_title',
             'banns_date',
+            'bible',
+            'reader',
+            'other',
+            'other_reader',
             'by_license',
             'organ',
             'choir',
@@ -50,6 +54,7 @@ class ReadingForm(forms.ModelForm):
             'bible',
             'other',
             'reader',
+            'other_reader',
             'wedding',
         ]
         widgets = {'wedding': forms.HiddenInput()}

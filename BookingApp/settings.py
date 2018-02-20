@@ -25,7 +25,7 @@ SECRET_KEY = 'z$n8v7l@gutx6kj9i#zj-6)$eb%j9hzilpi)q*=9nd3!g^330%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.4.53']
 
 
 # Application definition
@@ -33,9 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main_app',
     'wedding',
-
-    'widget_tweaks',
-
+    #'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
