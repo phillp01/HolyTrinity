@@ -102,6 +102,7 @@ def save_form(request, form, partial_create_template_name, partial_list_template
             form.save()
             data['form_is_valid'] = True
             html_list = modal.objects.all()
+            print(html_list)
             data['html_list'] = render_to_string(partial_list_template_name, {'html_list':  html_list})
         else:
             data['form_is_valid'] = False

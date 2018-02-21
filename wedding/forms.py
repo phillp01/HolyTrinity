@@ -41,6 +41,15 @@ class WeddingForm(forms.ModelForm):
             'wheelchair_access',
             'rehearsal_date',
             'rehearsal_time',
+            'total_paid',
+            'date_amount_paid',
+            'notes',
+            'first_visit',
+            'second_visit',
+            'third_visit',
+            'evidence_filed',
+            'decree_abs_seen',
+            'banns_no',
         ]
         widgets = {
             'date': forms.DateInput(attrs={'class': 'datepicker'}),

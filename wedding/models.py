@@ -64,6 +64,15 @@ class Wedding(models.Model):
     wheelchair_access = models.CharField(max_length=50, null=True, blank=True)
     rehearsal_date = models.DateField(null=True, blank=True)
     rehearsal_time = models.TimeField(null=True, blank=True)
+    total_paid = models.CharField(max_length=50, null=True, blank=True)
+    date_amount_paid = models.TextField(null=True, blank=True,verbose_name='Dates and Amounts Paid')
+    notes = models.TextField(null=True, blank=True)
+    first_visit = models.CharField(max_length=50, null=True, blank=True)
+    second_visit = models.CharField(max_length=50, null=True, blank=True)
+    third_visit = models.CharField(max_length=50, null=True, blank=True)
+    evidence_filed = models.BooleanField(default=False,verbose_name='Evidence Filed')
+    decree_abs_seen = models.BooleanField(default=False,verbose_name='Decree Abs Seen')
+    banns_no = models.CharField(max_length=50, null=True, blank=True)
 
     
     def __str__(self):
