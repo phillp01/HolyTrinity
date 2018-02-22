@@ -14,6 +14,13 @@ def weddings(request):
     weddings = Wedding.objects.all()
     return render(request, 'weddings.html', {'html_list': weddings})
 
+# def index1(request):
+    # services_choices=additionalServices.objects.all().count()
+    # return render(
+        # request,
+        # 'index.html',
+        # context={'services_choices':services_choices},
+    # )
 
 def wedding_create(request):
     if request.method == 'POST':
@@ -206,3 +213,13 @@ def bride_create(request, pk):
     print("Bride create run with wedding id = ", pk)
     person_create(request, pk)
     # return HttpResponse("<h1>GOGOGO</h1>")
+	
+def total_wedding_amount(request):
+    if request.is_ajax():
+        checked_array = request.GET.get('checked_array');
+        #print(checked_array);
+        return HttpResponse(400)
+        #message = "Yes, AJAX!"
+    else:
+        message = "Not Ajax"
+    return HttpResponse(message)	

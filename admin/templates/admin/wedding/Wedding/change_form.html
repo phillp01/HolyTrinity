@@ -1,0 +1,85 @@
+{% extends "admin/change_form.html" %}
+{% block extrahead %}{{ block.super }}
+    <script type="text/javascript">
+		(function($) { 
+			$(document).ready(function() {
+
+				$(document).on('change', '#id_by_license, #id_organ, #id_choir, #id_bells, #id_flowers, #id_video, #id_cd, #id_winter_heating, #id_verger, #id_car_park_attendant', function(e) {
+				
+				var checked_array = [];
+				
+				if($('#id_by_license:checkbox:checked').length > 0){
+					checked_array.push({ 'by_license': 1 });
+				}else{
+					checked_array.push({ 'by_license': 0 });
+				}
+				
+				if($('#id_choir:checkbox:checked').length > 0){
+					checked_array.push({ 'choir': 1 });
+				}else{
+					checked_array.push({ 'choir': 0 });
+				}
+				
+				if($('#id_organ:checkbox:checked').length > 0){
+					checked_array.push({ 'organ': 1 });
+				}else{
+					checked_array.push({ 'organ': 0 });
+				}
+				
+				if($('#id_bells:checkbox:checked').length > 0){
+					checked_array.push({ 'bells': 1 });
+				}else{
+					checked_array.push({ 'bells': 0 });
+				}
+				
+				if($('#id_flowers:checkbox:checked').length > 0){
+					checked_array.push({ 'flowers': 1 });
+				}else{
+					checked_array.push({ 'flowers': 0 });
+				}
+				
+				if($('#id_video:checkbox:checked').length > 0){
+					checked_array.push({ 'video': 1 });
+				}else{
+					checked_array.push({ 'video':  0});
+				}
+				
+				if($('#id_cd:checkbox:checked').length > 0){
+					checked_array.push({ 'cd': 1 });
+				}else{
+					checked_array.push({ 'cd': 0 });
+				}
+				
+				if($('#id_winter_heating:checkbox:checked').length > 0){
+					checked_array.push({ 'winter_heating': 1 });
+				}else{
+					checked_array.push({ 'winter_heating': 0 });
+				}
+				
+				if($('#id_verger:checkbox:checked').length > 0){
+					checked_array.push({ 'verger': 1 });
+				}else{
+					checked_array.push({ 'verger': 0 });
+				}
+				if($('#id_car_park_attendant:checkbox:checked').length > 0){
+					checked_array.push({ 'car_park_attendant': 1 });
+				}else{
+					checked_array.push({ 'car_park_attendant': 0 });
+				}
+				
+				$.ajax({
+					type: "GET",
+					url: '/wedding/total_wedding_amount/',
+					data: {checked_array:checked_array}
+				}).done(function(data) {
+					$('#id_total_paid').val(data);
+				});
+				
+					
+				});
+			});
+		})(django.jQuery); 
+	
+
+    </script>
+{% endblock %}

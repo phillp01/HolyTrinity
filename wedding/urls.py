@@ -18,3 +18,7 @@ urlpatterns = [
 
     url(r'^people/(?P<pk>\d+)/create/$', views.bride_create, name='add_bride'),
 ]
+
+urlpatterns += [
+    url('total_wedding_amount/', views.total_wedding_amount, name='total_wedding_amount'),
+]
