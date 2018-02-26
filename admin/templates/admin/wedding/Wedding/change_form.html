@@ -1,11 +1,35 @@
 {% extends "admin/change_form.html" %}
 {% block extrahead %}{{ block.super }}
-    <script type="text/javascript">
-		(function($) { 
-			$(document).ready(function() {
-
-				$(document).on('change', '#id_by_license, #id_organ, #id_choir, #id_bells, #id_flowers, #id_video, #id_cd, #id_winter_heating, #id_verger, #id_car_park_attendant', function(e) {
-				
+<script type="text/javascript">
+	(function($) { 
+		$(document).ready(function() {
+			
+			var path = $(location).attr('pathname');
+			var id_wedding = path.split("/")[4];
+			
+			$('#id_total_paid').attr('readonly','readonly');
+			
+			$('.field-by_license_price').css("display", "none");
+			$('.field-organ_price').css("display", "none");
+			$('.field-choir_price').css("display", "none");
+			$('.field-bells_price').css("display", "none");
+			$('.field-flowers_price').css("display", "none");
+			$('.field-video_price').css("display", "none");
+			$('.field-cd_price').css("display", "none");
+			$('.field-verger_price').css("display", "none");
+			$('.field-car_park_attendant_price').css("display", "none");
+			$('.field-winter_heating_price').css("display", "none");
+			$('.field-church_price').css("display", "none");
+			
+			
+			
+			$(document).on('change', '#id_church, #id_by_license, #id_organ, #id_choir, #id_bells, #id_flowers, #id_video, #id_cd, #id_winter_heating, #id_verger, #id_car_park_attendant', function(e) {
+				var my_field = $(this);
+				if(!$('#id_church').val()){
+					my_field.prop('checked', false);
+					alert('Please Select Church first!');
+					return false();
+				}
 				var checked_array = [];
 				
 				if($('#id_by_license:checkbox:checked').length > 0){
@@ -67,19 +91,77 @@
 					checked_array.push({ 'car_park_attendant': 0 });
 				}
 				
+				
 				$.ajax({
-					type: "GET",
+					type: 'POST',
+					dataType: 'json',
 					url: '/wedding/total_wedding_amount/',
-					data: {checked_array:checked_array}
-				}).done(function(data) {
-					$('#id_total_paid').val(data);
+					data: {checked_array:checked_array,'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'id_church':$( '#id_church' ).val(),'id_wedding':id_wedding}
+				}).done(function(data) {					
+					$('#id_total_paid').val(data[0]['total_amount']);
+					
+					if($('#id_by_license:checkbox:checked').length > 0){						
+						$('#id_by_license_price').val(data[1]['by_license_price']);
+					}else{
+						$('#id_total_paid').val(0);						
+					}
+					if($('#id_video:checkbox:checked').length > 0){
+						$('#id_video_price').val(data[2]['video_price']);
+					}else{
+						$('#id_video_price').val(0);
+						console.log($('#id_video_price').val(0))
+					}
+					
+					if($('#id_cd:checkbox:checked').length > 0){
+						$('#id_cd_price').val(data[3]['cd_price']);
+					}else{
+						$('#id_cd_price').val(0);
+					}
+					
+					if($('#id_winter_heating:checkbox:checked').length > 0){
+						$('#id_winter_heating_price').val(data[4]['winter_heating_price']);
+					}else{
+						$('#id_winter_heating_price').val(0);
+					}
+					if($('#id_organ:checkbox:checked').length > 0){
+						$('#id_organ_price').val(data[5]['organ_price']);
+					}else{
+						$('#id_organ_price').val(0);
+					}
+					if($('#id_choir:checkbox:checked').length > 0){
+						$('#id_choir_price').val(data[6]['choir_price']);
+					}else{
+						$('#id_choir_price').val(0);
+					}
+					if($('#id_bells:checkbox:checked').length > 0){
+						$('#id_bells_price').val(data[7]['bells_price']);
+					}else{
+						$('#id_bells_price').val(0);
+					}
+					if($('#id_flowers:checkbox:checked').length > 0){
+						$('#id_flowers_price').val(data[8]['flowers_price']);
+					}else{
+						$('#id_flowers_price').val(0);
+					}
+					if($('#id_verger:checkbox:checked').length > 0){
+						$('#id_verger_price').val(data[9]['verger_price']);
+					}else{
+						$('#id_verger_price').val(0);
+					}
+					if($('#id_car_park_attendant:checkbox:checked').length > 0){
+						$('#id_car_park_attendant_price').val(data[10]['car_park_attendant_price']);
+					}else{
+						$('#id_car_park_attendant_price').val(0);
+					}
+					
+					$('#id_church_price').val(data[11]['church_price']);
 				});
 				
 					
 				});
 			});
-		})(django.jQuery); 
+	})(django.jQuery); 
 	
 
-    </script>
+</script>
 {% endblock %}

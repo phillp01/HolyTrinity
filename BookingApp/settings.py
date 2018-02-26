@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ['192.168.4.53']
 INSTALLED_APPS = [
     'main_app',
     'wedding',
-    #'widget_tweaks',
+    'admin_responsive',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

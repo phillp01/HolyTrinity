@@ -5,15 +5,11 @@ from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.six import iteritems
-from django.db import models
-import datetime
-from .forms import WeddingForm, ReadingForm, HymnForm
-#from .models import Wedding, ServiceReading, ServiceHymn, additionalServices
-from .models import Wedding, ServiceReading, ServiceHymn
-from main_app.models import Person,Church
-from main_app.views import save_form, person_create
 
-from decimal import *
+from .forms import WeddingForm, ReadingForm, HymnForm
+from .models import Wedding, ServiceReading, ServiceHymn, additionalServices
+from main_app.models import Person
+from main_app.views import save_form, person_create
 
 get_model = apps.get_model
 
@@ -221,159 +217,44 @@ def bride_create(request, pk):
     person_create(request, pk)
     # return HttpResponse("<h1>GOGOGO</h1>")
 
+def do_filter(qs, keywords, exclude=False):
+    """
+    Filter queryset based on keywords.
+    Support for multiple-selected parent values.
+    """
+    and_q = Q()
+    data = additionalServices.objects.filter(name='Choir')
+    return data
+    for keyword, value in iteritems(keywords):
+        try:
+            values = value.split(",")
+            if len(values) > 0:
+                or_q = Q()
+                for value in values:
+                    or_q |= Q(**{keyword: value})
+                and_q &= or_q
+        except AttributeError:
+            # value can be a bool
+            and_q &= Q(**{keyword: value})
+    if exclude:
+        qs = qs.exclude(and_q)
+    else:
+        qs = qs.filter(and_q)
+    return qs
+
+	
 def total_wedding_amount(request):
-    id_wedding = request.POST['id_wedding']	;
-    model = 'Church'   
-    app = 'main_app'
-    total_amount = Decimal(0.00)
+    model = 'additionalServices'			
+    app = 'wedding'			
     model_class = get_model(app, model)
-
-    by_license = request.POST['checked_array[0][by_license]']
-    choir = request.POST['checked_array[1][choir]']
-    organ = request.POST['checked_array[2][organ]']
-    bells = request.POST['checked_array[3][bells]']
-    flowers = request.POST['checked_array[4][flowers]']
-    video = request.POST['checked_array[5][video]']
-    cd = request.POST['checked_array[6][cd]']
-    winter_heating = request.POST['checked_array[7][winter_heating]']
-    verger = request.POST['checked_array[8][verger]']
-    car_park_attendant = request.POST['checked_array[9][car_park_attendant]']
-	
-    id_church = request.POST['id_church']	
-	
-    if id_wedding:
-        model = 'Wedding'
-        app = 'wedding'
-        wedding_data = list(Wedding.objects.filter(id=id_wedding).values())
-	
-    #all_data = list(Church.objects.values())
-    all_data = list(Church.objects.filter(id=id_church).values())
-    
-	
-    now=datetime.datetime.now().date()
-
-    if wedding_data[0]['church_price']!=0.0000:        
-        total_amount = total_amount + wedding_data[0]['church_price']
+    #results = do_filter(app.model.objects, 'Organ')
+    results = do_filter("wedding.additionalServices.objects", 'Choir')
+    return HttpResponse(results);
+    if request.is_ajax():
+        checked_array = request.GET.get('checked_array');
+        #print(checked_array);
+        return HttpResponse(400)
+        #message = "Yes, AJAX!"
     else:
-        if all_data[0]['statutory_upcoming_date'] > now:
-            total_amount = total_amount + all_data[0]['statutory_current_price']			
-        else:
-            total_amount = total_amount + all_data[0]['statutory_upcoming_price']			
-
-    if by_license == '1':
-        if wedding_data[0]['by_license_price']!=0.0000:			
-            total_amount = total_amount + wedding_data[0]['by_license_price'];
-        else:
-            total_amount = total_amount + all_data[0]['by_license']			
- 
-    if choir == '1':
-        if wedding_data[0]['choir_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['choir_price'];
-        else:
-            total_amount = total_amount + all_data[0]['by_license']
-
-    if organ == '1':
-        if wedding_data[0]['organ_price']!=0.0000:		
-            total_amount = total_amount + wedding_data[0]['organ_price'];
-        else:
-            total_amount = total_amount + all_data[0]['organ']
-
-    if bells == '1':
-        if wedding_data[0]['bells_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['bells_price'];
-        else:			
-            total_amount = total_amount + all_data[0]['bells']
-
-    if flowers == '1':
-        if wedding_data[0]['flowers_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['flowers_price'];			
-        else:
-            total_amount = total_amount + all_data[0]['flowers']
-			
-    if video == '1':
-        if wedding_data[0]['video_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['video_price'];
-        else:
-            total_amount = total_amount + all_data[0]['video']
-   
-    if cd == '1':
-        if wedding_data[0]['cd_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['cd_price'];	
-        else:
-            total_amount = total_amount + all_data[0]['cd']
-
-    if winter_heating == '1':
-        if wedding_data[0]['winter_heating_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['winter_heating_price'];
-        else:
-            total_amount = total_amount + all_data[0]['winter_heating']
-  
-    if verger == '1':
-        if wedding_data[0]['verger_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['verger_price'];	
-        else:
-            total_amount = total_amount + all_data[0]['verger']
-  
-    if car_park_attendant == '1':
-        if wedding_data[0]['car_park_attendant_price']!=0.0000:
-            total_amount = total_amount + wedding_data[0]['car_park_attendant_price'];
-        else:
-            total_amount = total_amount + all_data[0]['car_park_attendant']
-		
-        total_amount = total_amount + all_data[0]['by_license']
-		
-
-		
-    if wedding_data[0]['by_license_price']!=0.0000:
-        by_license_price = wedding_data[0]['by_license_price'];		
-    else:by_license_price = all_data[0]['by_license'];
-	
-    if wedding_data[0]['video_price']!=0.0000:
-        video_price = wedding_data[0]['video_price'];		
-    else:video_price = all_data[0]['video'];
-
-    if wedding_data[0]['cd_price']!=0.0000:
-        cd_price = wedding_data[0]['cd_price'];		
-    else:cd_price = all_data[0]['cd'];
-
-    if wedding_data[0]['winter_heating_price']!=0.0000:
-        winter_heating_price = wedding_data[0]['winter_heating_price'];		
-    else:winter_heating_price = all_data[0]['winter_heating'];
-
-    if wedding_data[0]['organ_price']!=0.0000:
-        organ_price = wedding_data[0]['organ_price'];		
-    else:organ_price = all_data[0]['organ'];
-
-    if wedding_data[0]['choir_price']!=0.0000:
-        choir_price = wedding_data[0]['choir_price'];		
-    else:choir_price = all_data[0]['choir'];
-
-    if wedding_data[0]['bells_price']!=0.0000:
-        bells_price = wedding_data[0]['bells_price'];		
-    else:bells_price = all_data[0]['bells'];
-
-    if wedding_data[0]['flowers_price']!=0.0000:
-        flowers_price = wedding_data[0]['flowers_price'];		
-    else:flowers_price = all_data[0]['flowers'];
-
-    if wedding_data[0]['verger_price']!=0.0000:
-        verger_price = wedding_data[0]['verger_price'];		
-    else:verger_price = all_data[0]['verger'];
-
-    if wedding_data[0]['car_park_attendant_price']!=0.0000:
-        car_park_attendant_price = wedding_data[0]['car_park_attendant_price'];		
-    else:car_park_attendant_price = all_data[0]['car_park_attendant'];
-	
-    if wedding_data[0]['church_price']!=0.0000:
-        church_price = wedding_data[0]['church_price'];		
-    else:
-        if all_data[0]['statutory_upcoming_date'] > now:
-            church_price = all_data[0]['statutory_current_price']
-        else:
-            church_price = all_data[0]['statutory_upcoming_price']
-	
-	
-    data = [{'total_amount':total_amount},{'by_license_price':by_license_price},{'video_price':video_price},{'cd_price':cd_price},{'winter_heating_price':winter_heating_price},{'organ_price':organ_price},{'choir_price':choir_price},{'bells_price':bells_price},{'flowers_price':flowers_price},{'verger_price':verger_price},{'car_park_attendant_price':car_park_attendant_price},{'church_price':church_price}]
-	        		
-        
-    return JsonResponse(data, safe=False)
+        message = "Not Ajax"
+    return HttpResponse(message)	

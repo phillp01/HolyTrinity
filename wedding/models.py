@@ -47,12 +47,12 @@ class Wedding(models.Model):
     winter_heating = models.BooleanField(default=False)
     verger = models.BooleanField(default=False)
     car_park_attendant = models.BooleanField(default=False)
-    Hymn1 = models.CharField(max_length=50, null=True, blank=True)
-    Hymn2 = models.CharField(max_length=50, null=True, blank=True)
-    Hymn3 = models.CharField(max_length=50, null=True, blank=True)
-    Hymn4 = models.CharField(max_length=50, null=True, blank=True)
-    Hymn5 = models.CharField(max_length=50, null=True, blank=True)
-    Hymn6 = models.CharField(max_length=50, null=True, blank=True)
+    # Hymn1 = models.CharField(max_length=50, null=True, blank=True)
+    # Hymn2 = models.CharField(max_length=50, null=True, blank=True)
+    # Hymn3 = models.CharField(max_length=50, null=True, blank=True)
+    # Hymn4 = models.CharField(max_length=50, null=True, blank=True)
+    # Hymn5 = models.CharField(max_length=50, null=True, blank=True)
+    # Hymn6 = models.CharField(max_length=50, null=True, blank=True)
     marches = models.CharField(max_length=50, null=True, blank=True)
     singing = models.CharField(max_length=50, null=True, blank=True)
     organist = models.CharField(max_length=50, null=True, blank=True)
@@ -73,7 +73,17 @@ class Wedding(models.Model):
     evidence_filed = models.BooleanField(default=False,verbose_name='Evidence Filed')
     decree_abs_seen = models.BooleanField(default=False,verbose_name='Decree Abs Seen')
     banns_no = models.CharField(max_length=50, null=True, blank=True)
-
+    by_license_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    organ_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    choir_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    bells_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    flowers_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    video_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    cd_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    winter_heating_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    verger_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    car_park_attendant_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+    church_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
     
     def __str__(self):
         return str(self.id)
@@ -84,31 +94,34 @@ class Wedding(models.Model):
 	# fromDate = models.DateField(null=True, blank=True)
 	# toDate = models.DateField(null=True, blank=True)
 
-class additionalServices(models.Model):
+# class additionalServices(models.Model):
 	
-	Additional_services_choices = (
-        ('By License', 'By License'),
-        ('Organ', 'Organ'),
-        ('Choir', 'Choir'),
-        ('Bells', 'Bells'),
-        ('Flowers', 'Flowers'),
-        ('Video', 'Video'),
-        ('Cd', 'Cd'),
-        ('Winter Heating', 'Winter Heating'),
-        ('Verger', 'Verger'),
-        ('Car Park Attendant', 'Car Park Attendant'),
+	# Additional_services_choices = (
+        # ('By License', 'By License'),
+        # ('Organ', 'Organ'),
+        # ('Choir', 'Choir'),
+        # ('Bells', 'Bells'),
+        # ('Flowers', 'Flowers'),
+        # ('Video', 'Video'),
+        # ('Cd', 'Cd'),
+        # ('Winter Heating', 'Winter Heating'),
+        # ('Verger', 'Verger'),
+        # ('Car Park Attendant', 'Car Park Attendant'),
      
-    )
-	name = models.CharField(
-        max_length=100,
-        choices=Additional_services_choices,
-        blank=False,
-        verbose_name='Additional Services',
-        default=Decimal('0.0000')
-    )
-	current_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
-	upcoming_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
-	upcoming_date = models.DateField(null=True, blank=True)	
+    # )
+	# name = models.CharField(
+        # max_length=100,
+        # choices=Additional_services_choices,
+        # blank=False,
+        # verbose_name='Additional Services',
+        # default=Decimal('0.0000')
+    # )
+	# current_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	# upcoming_price = models.DecimalField(max_digits=20,decimal_places=4,default=Decimal('0.0000'),)
+	# upcoming_date = models.DateField(null=True, blank=True)
+	
+	# def __str__(self):
+		# return str(self.current_price)
 
 
 

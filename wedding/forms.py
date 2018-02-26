@@ -1,6 +1,6 @@
 from django import forms
 from .models import Wedding, ServiceReading, ServiceHymn
-
+from decimal import Decimal
 
 class WeddingForm(forms.ModelForm):
 
@@ -18,8 +18,7 @@ class WeddingForm(forms.ModelForm):
             'dear',
             'mail_title',
             'banns_date',
-            'bible',
-            'reader',
+            'bible','reader',
             'other',
             'other_reader',
             'by_license',
@@ -49,11 +48,12 @@ class WeddingForm(forms.ModelForm):
             'third_visit',
             'evidence_filed',
             'decree_abs_seen',
-            'banns_no',
+            'banns_no',			
         ]
         widgets = {
             'date': forms.DateInput(attrs={'class': 'datepicker'}),
         }
+		
 
 class ReadingForm(forms.ModelForm):
 
