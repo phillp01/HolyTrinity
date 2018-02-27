@@ -241,18 +241,21 @@ def total_wedding_amount(request):
 	
     id_church = request.POST['id_church']	
 	
-    if id_wedding:
+    if id_wedding != '0':
         model = 'Wedding'
         app = 'wedding'
-        wedding_data = list(Wedding.objects.filter(id=id_wedding).values())
-	
+        #return HttpResponse(id_wedding);
+        wedding_data = list(Wedding.objects.filter(id=id_wedding).values());
+    else:
+        wedding_data = '0';
+    #return HttpResponse(wedding_data);
     #all_data = list(Church.objects.values())
     all_data = list(Church.objects.filter(id=id_church).values())
     
 	
     now=datetime.datetime.now().date()
 
-    if wedding_data[0]['church_price']!=0.0000:        
+    if wedding_data!='0' and wedding_data[0]['church_price']!=0.0000:        
         total_amount = total_amount + wedding_data[0]['church_price']
     else:
         if all_data[0]['statutory_upcoming_date'] > now:
@@ -261,110 +264,110 @@ def total_wedding_amount(request):
             total_amount = total_amount + all_data[0]['statutory_upcoming_price']			
 
     if by_license == '1':
-        if wedding_data[0]['by_license_price']!=0.0000:			
+        if wedding_data!='0' and wedding_data[0]['by_license_price']!=0.0000:			
             total_amount = total_amount + wedding_data[0]['by_license_price'];
         else:
             total_amount = total_amount + all_data[0]['by_license']			
  
     if choir == '1':
-        if wedding_data[0]['choir_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['choir_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['choir_price'];
         else:
             total_amount = total_amount + all_data[0]['by_license']
 
     if organ == '1':
-        if wedding_data[0]['organ_price']!=0.0000:		
+        if wedding_data!='0' and wedding_data[0]['organ_price']!=0.0000:		
             total_amount = total_amount + wedding_data[0]['organ_price'];
         else:
             total_amount = total_amount + all_data[0]['organ']
 
     if bells == '1':
-        if wedding_data[0]['bells_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['bells_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['bells_price'];
         else:			
             total_amount = total_amount + all_data[0]['bells']
 
     if flowers == '1':
-        if wedding_data[0]['flowers_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['flowers_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['flowers_price'];			
         else:
             total_amount = total_amount + all_data[0]['flowers']
 			
     if video == '1':
-        if wedding_data[0]['video_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['video_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['video_price'];
         else:
             total_amount = total_amount + all_data[0]['video']
    
     if cd == '1':
-        if wedding_data[0]['cd_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['cd_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['cd_price'];	
         else:
             total_amount = total_amount + all_data[0]['cd']
 
     if winter_heating == '1':
-        if wedding_data[0]['winter_heating_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['winter_heating_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['winter_heating_price'];
         else:
             total_amount = total_amount + all_data[0]['winter_heating']
   
     if verger == '1':
-        if wedding_data[0]['verger_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['verger_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['verger_price'];	
         else:
             total_amount = total_amount + all_data[0]['verger']
   
     if car_park_attendant == '1':
-        if wedding_data[0]['car_park_attendant_price']!=0.0000:
+        if wedding_data!='0' and wedding_data[0]['car_park_attendant_price']!=0.0000:
             total_amount = total_amount + wedding_data[0]['car_park_attendant_price'];
         else:
             total_amount = total_amount + all_data[0]['car_park_attendant']
 		
-        total_amount = total_amount + all_data[0]['by_license']
+        #total_amount = total_amount ;
 		
-
+        #return HttpResponse(total_amount);
 		
-    if wedding_data[0]['by_license_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['by_license_price']!=0.0000:
         by_license_price = wedding_data[0]['by_license_price'];		
     else:by_license_price = all_data[0]['by_license'];
 	
-    if wedding_data[0]['video_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['video_price']!=0.0000:
         video_price = wedding_data[0]['video_price'];		
     else:video_price = all_data[0]['video'];
 
-    if wedding_data[0]['cd_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['cd_price']!=0.0000:
         cd_price = wedding_data[0]['cd_price'];		
     else:cd_price = all_data[0]['cd'];
 
-    if wedding_data[0]['winter_heating_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['winter_heating_price']!=0.0000:
         winter_heating_price = wedding_data[0]['winter_heating_price'];		
     else:winter_heating_price = all_data[0]['winter_heating'];
 
-    if wedding_data[0]['organ_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['organ_price']!=0.0000:
         organ_price = wedding_data[0]['organ_price'];		
     else:organ_price = all_data[0]['organ'];
 
-    if wedding_data[0]['choir_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['choir_price']!=0.0000:
         choir_price = wedding_data[0]['choir_price'];		
     else:choir_price = all_data[0]['choir'];
 
-    if wedding_data[0]['bells_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['bells_price']!=0.0000:
         bells_price = wedding_data[0]['bells_price'];		
     else:bells_price = all_data[0]['bells'];
 
-    if wedding_data[0]['flowers_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['flowers_price']!=0.0000:
         flowers_price = wedding_data[0]['flowers_price'];		
     else:flowers_price = all_data[0]['flowers'];
 
-    if wedding_data[0]['verger_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['verger_price']!=0.0000:
         verger_price = wedding_data[0]['verger_price'];		
     else:verger_price = all_data[0]['verger'];
 
-    if wedding_data[0]['car_park_attendant_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['car_park_attendant_price']!=0.0000:
         car_park_attendant_price = wedding_data[0]['car_park_attendant_price'];		
     else:car_park_attendant_price = all_data[0]['car_park_attendant'];
 	
-    if wedding_data[0]['church_price']!=0.0000:
+    if wedding_data!='0' and wedding_data[0]['church_price']!=0.0000:
         church_price = wedding_data[0]['church_price'];		
     else:
         if all_data[0]['statutory_upcoming_date'] > now:

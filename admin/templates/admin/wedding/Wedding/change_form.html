@@ -6,7 +6,11 @@
 			
 			var path = $(location).attr('pathname');
 			var id_wedding = path.split("/")[4];
-			
+			if(id_wedding=='add'){
+				id_wedding = 0;
+			}else{
+				id_wedding = id_wedding;
+			}
 			$('#id_total_paid').attr('readonly','readonly');
 			
 			$('.field-by_license_price').css("display", "none");
@@ -28,7 +32,7 @@
 				if(!$('#id_church').val()){
 					my_field.prop('checked', false);
 					alert('Please Select Church first!');
-					return false();
+					return false;
 				}
 				var checked_array = [];
 				
@@ -92,24 +96,27 @@
 				}
 				
 				
+				//alert('wedding '+id_wedding);
+				
 				$.ajax({
 					type: 'POST',
 					dataType: 'json',
 					url: '/wedding/total_wedding_amount/',
 					data: {checked_array:checked_array,'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'id_church':$( '#id_church' ).val(),'id_wedding':id_wedding}
-				}).done(function(data) {					
+				}).done(function(data) {	
+					//alert(data[0]['total_amount'])
+					//alert($('#id_total_paid').attr('name'))
 					$('#id_total_paid').val(data[0]['total_amount']);
 					
 					if($('#id_by_license:checkbox:checked').length > 0){						
 						$('#id_by_license_price').val(data[1]['by_license_price']);
 					}else{
-						$('#id_total_paid').val(0);						
+						$('#id_by_license_price').val(0);						
 					}
 					if($('#id_video:checkbox:checked').length > 0){
 						$('#id_video_price').val(data[2]['video_price']);
 					}else{
-						$('#id_video_price').val(0);
-						console.log($('#id_video_price').val(0))
+						$('#id_video_price').val(0);						
 					}
 					
 					if($('#id_cd:checkbox:checked').length > 0){
