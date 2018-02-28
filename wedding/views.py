@@ -7,10 +7,13 @@ from django.db.models import Q
 from django.utils.six import iteritems
 from django.db import models
 import datetime
+
+from .models import Person
+from .forms import PersonForm
 from .forms import WeddingForm, ReadingForm, HymnForm
 #from .models import Wedding, ServiceReading, ServiceHymn, additionalServices
 from .models import Wedding, ServiceReading, ServiceHymn
-from main_app.models import Person,Church
+from main_app.models import Person,Church,Ministers
 from main_app.views import save_form, person_create
 
 from decimal import *
@@ -34,18 +37,27 @@ def wedding_create(request):
         form = WeddingForm(request.POST)
     else:
         form = WeddingForm()
-        form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
+        #form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
     return save_form(request, form, 'includes/partial_wedding_create.html', 'includes/partial_wedding_list.html', Wedding)
 
 
 def wedding_update(request, pk):
     wedding = get_object_or_404(Wedding, pk=pk)
     if request.method == 'POST':
+        try:
+            groom = Person.objects.get(wedding_id=pk, role='Groom')
+        except ObjectDoesNotExist:
+            groom = None
+        try:
+            bride = Person.objects.get(wedding_id=pk, role='Bride')
+        except ObjectDoesNotExist:
+            bride = None
         readings = ServiceReading.objects.filter(wedding_id=pk)
         hymns = ServiceHymn.objects.filter(wedding_id=pk)
         wedding_form = WeddingForm(request.POST, instance=wedding)
+        #return HttpResponse(request.POST.get('bride'))
         if wedding_form.is_valid():
-            wedding_form.save()
+            wedding_form.save()        
     else:
         wedding_form = WeddingForm(instance=wedding)
         readings = ServiceReading.objects.filter(wedding_id=pk)
@@ -217,10 +229,46 @@ def save_hymn_form(request, form, template_name, hymn):
     return JsonResponse(data)
 
 def bride_create(request, pk):
-    print("Bride create run with wedding id = ", pk)
-    person_create(request, pk)
+    #print("Bride create run with wedding id = ", pk)
+    #person_create(request, pk)
     # return HttpResponse("<h1>GOGOGO</h1>")
+    print("Person_create view run with wedding id", pk)
+    if request.method == 'POST':
+        print("request is POST")
+        form = PersonForm(request.POST)
+    else:
+        print("request is get")
+        form = PersonForm()
+    return save_person_form(request, form, 'includes/partial_person_create.html')
 
+def save_person_form(request, form, template_name):
+    print("Save person form run")
+    data = dict()
+    if request.method == 'POST':
+        print("Save person is POST")
+        if form.is_valid():
+            print("save person form - form is valid")
+            form.save()
+            data['form_is_valid'] = True
+            all_people = Person.objects.all()
+            data['html_list'] = render_to_string('includes/partial_people_list.html', {'people':  all_people})
+        else:
+            print("save person form - form is NOT valid")
+            data['form_is_valid'] = False
+    else:
+        print("Save person is get")
+    context = {"form": form}
+
+    print("Context =", context)
+    print("Template name =", template_name)
+    # render_to_string('includes/partial_person_create.html', context, request=request)
+    data['html_form'] = render_to_string('includes/partial_person_create.html', context, request=request)
+    # data['html_form'] = "<div>hello</div>"
+
+    return JsonResponse(data)
+
+    # return HttpResponse("HELLO")
+	
 def total_wedding_amount(request):
     id_wedding = request.POST['id_wedding']	;
     model = 'Church'   

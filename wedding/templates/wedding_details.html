@@ -129,6 +129,7 @@
                                 </div>
                             </div>
                         </div>
+						
                     </section>
 
                     <div class="wedding-details">
@@ -346,9 +347,23 @@
                                     </table>
                                 </section>
 
-                                <section>
-                                    <h>Fees</h>
+                                <section>    
+									 <h4>Fees</h4>
+									<tr><th>Total Paid:</th><td>{{ wedding.total_paid }}</td></tr>
                                 </section>
+								
+								<section> 
+									<tr><th>Dates and Amounts Paid::</th><td>{{ wedding.date_amount_paid }}</td></tr>
+                                </section>
+								
+								<section> 
+								 <tr><th>First Visit</th><td>{{ wedding.first_visit }}</td><th>Second Visit</th><td>{{ wedding.second_visit }}</td><th>Third Visit</th><td>{{ wedding.third_visit }}</td></tr>
+                                </section>
+								
+								<section> 
+								 <tr><th>Evidence Filed:</th><td>{{ wedding.evidence_filed }}</td><th>Decree Abs Seen: </th><td>{{ wedding.decree_abs_seen }}</td><th>Banns no:</th><td>{{ wedding.banns_no }}</td></tr>
+                                </section>
+								
                             </div>
                         </div>
                     </div>

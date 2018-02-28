@@ -1,5 +1,5 @@
 from django import forms
-from .models import Wedding, ServiceReading, ServiceHymn
+from .models import Wedding, ServiceReading, ServiceHymn,Person
 from decimal import Decimal
 
 class WeddingForm(forms.ModelForm):
@@ -18,7 +18,8 @@ class WeddingForm(forms.ModelForm):
             'dear',
             'mail_title',
             'banns_date',
-            'bible','reader',
+            'bible',
+			'reader',
             'other',
             'other_reader',
             'by_license',
@@ -78,3 +79,30 @@ class HymnForm(forms.ModelForm):
             'wedding',
         ]
         widgets = {'wedding': forms.HiddenInput()}
+
+class PersonForm(forms.ModelForm):
+
+    class Meta:
+        model = Person
+        fields = [
+            'wedding_id',
+            'role',
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'title',
+            'church',
+            'proof',
+            'qualifying_connection',
+            'dob',
+            'age_at_wedding',
+            'occupation',
+            'status',
+            'nationality',
+            'details',
+            'connected_by_marriage',
+            'if_yes_how',
+            'father_name',
+            'father_occupation',
+        ]
