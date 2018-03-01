@@ -62,12 +62,8 @@ def wedding_update(request, pk):
         hymns = ServiceHymn.objects.filter(wedding_id=pk)		
         wedding_form = WeddingForm(request.POST, instance=wedding)		
         
-        if wedding_form.is_valid():
-            wedding.church_id = wedding_form.cleaned_data['church']
-            wedding.minister_id = wedding_form.cleaned_data['minister']
-            wedding.service_type_id = wedding_form.cleaned_data['service_type']
-            wedding.service_status_id = wedding_form.cleaned_data['service_status']
-        wedding.save()        
+        if wedding_form.is_valid(): 
+            wedding.save()        
     else:
         wedding_form = WeddingForm(instance=wedding)
         readings = ServiceReading.objects.filter(wedding_id=pk)
@@ -255,13 +251,16 @@ def autocomplete(request):
     if request.is_ajax():
         queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
         #queryset = Person.objects.all()
-        #queryset = list(Person.objects.filter(first_name__startswith=request.GET.get('search', None)).values());
+        #queryset = list(Person.objects.filter(first_name__startswith=request.GET.get('search', None)).values('id','first_name'));
+        #queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
     #return HttpResponse(queryset)
-    list1 = []        
+    list = []        
+    #list2 = queryset        
     for i in queryset:
-            list1.append(i.first_name)
+            #return HttpResponse(queryset)
+            list.append(i.first_name)            
     data = {
-            'list': list1,
+            'list': list,
         }
     return JsonResponse(data)
 		

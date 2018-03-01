@@ -109,7 +109,7 @@
                     <div class="row form-horizontal">
                       <div class="col-sm">
                         <div class="form-group row" style="margin-bottom:20px !important;">
-                          <label class="col-sm-4"> Groom's Details </label>
+                          <label class="col-sm-4"> Groom's Details :</label>
                           <div class="col-sm-8">
                             <input type="text" id="id_input" >
                           </div>
@@ -159,7 +159,7 @@
                       </div>
                       <div class="col-sm">
                         <div class="form-group row" style="margin-bottom:20px !important;">
-                          <label class="col-sm-4"> Bride's Details </label>
+                          <label class="col-sm-4"> Bride's Details :</label>
                           <div class="col-sm-8">
                             <input type="text" id="id_input_bride">
                           </div>
@@ -431,7 +431,9 @@
               'search': value 
             },
             dataType: 'json',
-            success: function (data) {			
+            success: function (data) {	
+				console.log(data)
+				console.log(data.first_name)
                 list = data.list;
                 $("#id_input").autocomplete({
                 source: list,

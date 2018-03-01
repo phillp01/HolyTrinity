@@ -8,9 +8,7 @@ class WeddingForm(forms.ModelForm):
         model = Wedding
         fields = [
             'date',
-            'time',
-            'bride',
-            'groom',
+            'time',            
             'church',
             'minister',
             'service_type',
