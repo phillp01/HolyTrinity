@@ -3,374 +3,417 @@
 {% load widget_tweaks %}
 
 {% block content %}
-
 <main>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <form method="post" action="{% url 'wedding_update'  wedding.instance.pk %}" class="js-wedding-update-form" id="wedding-update-form">
-                    <header>
-                        <div class="d-flex justify-content-end">
-                            <h1 class="mr-auto p-2">Wedding Detail</h1>
-                            <p>
-                                <button type="submit" class="ml-1 btn btn-primary">
-                                <span class=" ICON "></span>
-                                Save
-                                </button>
-                            </p>
-                            <p>
-                                <button type="submit" class="ml-1 btn btn-primary">
-                                <span class=" ICON "></span>
-                                Reset
-                                </button>
-                            </p>
-                            <p>
-                                <button type="submit" class="ml-1 btn btn-primary">
-                                <span class=" ICON "></span>
-                                Cancel
-                                </button>
-                            </p>
-                            <p>
-                                <button type="submit" class="ml-1 btn btn-primary">
-                                <span class=" ICON "></span>
-                                Print
-                                </button>
-                            </p>
-                        </div>
-                    </header>
-                    {% csrf_token %}
-                    <section class="wedding-form">
-                        <div class="form-row labels-right">
-                            <div class="form-group col-md">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.date.id_for_label }}" class="col-sm-5 col-form-label">Wedding {{ wedding.date.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.date }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.time.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.time.label }}</label>
-                                    <div class="col-sm-9">
-                                        {{ wedding.time}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.church.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.church.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.church }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row labels-right">
-                            <div class="form-group col-md">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.service.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.service_type.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.service_type }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.minister.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.minister.label }}</label>
-                                    <div class="col-sm-9">
-                                        {{ wedding.minister }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.status.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.service_status.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.service_status }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.dear.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.dear.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.dear }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.mail_title.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.mail_title.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.mail_title }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.banns_date.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.banns_date.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.banns_date }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <div class="form-group row">
-                                    <label for="{{ wedding.by_license.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.by_license.label }}</label>
-                                    <div class="col-sm-7">
-                                        {{ wedding.by_license }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-						
-                    </section>
-
-                    <div class="wedding-details">
-                        <ul class="nav nav-tabs" id="wedding-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" id="bride-groom-tab" data-toggle="tab" role="tab" href="#bride-groom"><h6>Bride and Groom</h6></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" id="wedding-details-tab" data-toggle="tab" role="tab" href="#wedding-details"><h6>Wedding Detail</h6></a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade" id="bride-groom" role="tabpanel" aria-labelledby="home-tab">
-                                <h3>Bride and Groom</h3>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <h5>Groom's Details</h5>
-                                            <table>
-                                                <tr>
-                                                    <th>Full Name</th><td>{{ groom.first_name }} {{ groom.last_name }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Address</th><td></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Proof of Id.</th><td>{{ groom.proof }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tel / Mob</th><td>{{ groom.phone }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>E-Mail</th><td>{{ groom.email }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>DOB</th><td>{{ groom.dob }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Occupation</th><td>{{ groom.occupation }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Status</th><td>{{ groom.status }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Nationality</th><td>{{ groom.nationality }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Parish</th><td>{{ groom.church }}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="col-sm">
-                                            <h5>Bride's Details</h5>
-                                            <p>
-                                                <button type="button" class="btn btn-primary js-create-reading"
-                                                        data-url="{% url 'add_bride'  wedding_id %}">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                                Add Bride
-                                                </button>
-                                            </p>
-                                            <table>
-                                                <tr>
-                                                    <th>Full Name</th><td>{{ bride.first_name }} {{ bride.last_name }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Address</th><td></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Proof of Id.</th><td>{{ bride.proof }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tel / Mob</th><td>{{ bride.phone }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>E-Mail</th><td>{{ bride.email }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>DOB</th><td>{{ bride.dob }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Occupation</th><td>{{ bride.occupation }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Status</th><td>{{ bride.status }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Nationality</th><td>{{ bride.nationality }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Parish</th><td>{{ bride.church }}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="tab-pane fade show active" id="wedding-details" role="tabpanel" aria-labelledby="profile-tab">
-
-                                <section>
-                                    <div class="d-flex p-2 justify-content-between">
-                                        <h4>Readings</h4>
-                                        <p>
-                                            <button type="button" class="btn btn-primary js-create-reading"
-                                                    data-url="{% url 'reading_create'  wedding_id %}">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                            New Reading
-                                            </button>
-                                        </p>
-                                    </div>
-                                    <table id="readings-table" class="table table-striped js-update-table">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th scope="col">Bible</th>
-                                                <th scope="col">Other</th>
-                                                <th scope="col">Reader</th>
-                                                <th scope="col"></th>
-                                                <th scope="col"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% include 'includes/partial_readings_list.html' %}
-                                        </tbody>
-                                    </table>
-                                </section>
-
-                                <section>
-                                    <h4>Extras</h4>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.organ.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.organ.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.organ|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.choir.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.choir.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.choir|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.bells.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.bells.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.bells|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.flowers.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.flowers.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.flowers|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.video.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.video.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.video|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.cd.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.cd.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.cd|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.winter_heating.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.winter_heating.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.winter_heating|add_class:"form-check-input" }}</div>
-                                    </div>
-                                </section>
-
-                                <section>
-                                    <h4>Recommended Options</h4>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.verger.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.verger.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.verger|add_class:"form-check-input" }}</div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label for="{{ wedding.car_park_attendant.id_for_label }}" class="form-check-label col-sm-8 col-form-label">{{ wedding.car_park_attendant.label }}</label>
-                                        <div class="col-sm-4">{{ wedding.car_park_attendant|add_class:"form-check-input" }}</div>
-                                    </div>
-                                </section>
-
-                                <section>
-                                    <div class="d-flex p-2 justify-content-between">
-                                        <h4>Music</h4>
-                                        <p>
-                                            <button type="button" class="btn btn-primary js-create-hymn"
-                                                    data-url="{% url 'hymn_create' wedding_id %}">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                            Add hymn
-                                            </button>
-                                        </p>
-                                    </div>
-                                    <table id="hymns-table" class="table table-striped js-update-table">
-                                        <tbody>
-                                            {% include 'includes/partial_hymns_list.html' %}
-                                        </tbody>
-                                    </table>
-                                    <table class="table table-striped js-update-table">
-                                        <tbody>
-                                            <tr><th>Marches</th><td>{{ wedding.marches }}</td></tr>
-                                            <tr><th>Singing</th><td>{{ wedding.singing }}</td></tr>
-                                            <tr><th>Organist</th><td>{{ wedding.organist }}</td></tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-
-                                <section>
-                                    <h4>Flowers</h4>
-                                    <table class="table table-striped js-update-table">
-                                        <tbody>
-                                            <tr><th>Details:</th><td>{{ wedding.flowers_details }}</td></tr>
-                                            <tr><th>Contact:</th><td>{{ wedding.flowers_contact }}</td></tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-
-                                <section>
-                                    <h4>Other Details</h4>
-                                    <table id="testing-table" class="table table-striped js-update-table">
-                                        <tbody>
-                                            <tr><th>Estimate Number of Guests</th><td>{{ wedding.no_of_guests }}</td><th>Access for Wheelchairs</th><td>{{ wedding.wheelchair_access }}</td></tr>
-                                            <tr><th>Rehearsal</th><td>{{ wedding.rehearsal_date }}</td><th>Time</th><td>{{ wedding.rehearsal_time }}</td></tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-
-                                <section>    
-									 <h4>Fees</h4>
-									<tr><th>Total Paid:</th><td>{{ wedding.total_paid }}</td></tr>
-                                </section>
-								
-								<section> 
-									<tr><th>Dates and Amounts Paid::</th><td>{{ wedding.date_amount_paid }}</td></tr>
-                                </section>
-								
-								<section> 
-								 <tr><th>First Visit</th><td>{{ wedding.first_visit }}</td><th>Second Visit</th><td>{{ wedding.second_visit }}</td><th>Third Visit</th><td>{{ wedding.third_visit }}</td></tr>
-                                </section>
-								
-								<section> 
-								 <tr><th>Evidence Filed:</th><td>{{ wedding.evidence_filed }}</td><th>Decree Abs Seen: </th><td>{{ wedding.decree_abs_seen }}</td><th>Banns no:</th><td>{{ wedding.banns_no }}</td></tr>
-                                </section>
-								
-                            </div>
-                        </div>
-                    </div>
-                </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <form method="post" action="{% url 'wedding_update'  wedding.instance.pk %}" class="js-wedding-update-form" id="wedding-update-form">
+          <header>
+            <div class="d-flex justify-content-end">
+              <h1 class="mr-auto p-2">Wedding Detail</h1>
+              <p>
+                <button type="submit" class="ml-1 btn btn-primary"> <span class=" ICON "></span> Save </button>
+              </p>
+              <p>
+                <button type="submit" class="ml-1 btn btn-primary"> <span class=" ICON "></span> Reset </button>
+              </p>
+              <p>
+                <button type="submit" class="ml-1 btn btn-primary"> <span class=" ICON "></span> Cancel </button>
+              </p>
+              <p>
+                <button type="submit" class="ml-1 btn btn-primary"> <span class=" ICON "></span> Print </button>
+              </p>
             </div>
-        </div>
+          </header>
+          {% csrf_token %}
+          <section class="wedding-form">
+            <div class="form-row labels-right">
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.date.id_for_label }}" class="col-sm-5 col-form-label">Wedding {{ wedding.date.label }}</label>
+                  <div class="col-sm-7"> {{ wedding.date }} </div>
+                </div>
+              </div>
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.time.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.time.label }}</label>
+                  <div class="col-sm-9"> {{ wedding.time}} </div>
+                </div>
+              </div>
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.church.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.church.label }}</label>
+                  <div class="col-sm-7"> {{ wedding.church }} </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row labels-right">
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.service.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.service_type.label }}</label>
+                  <div class="col-sm-7"> {{ wedding.service_type }} </div>
+                </div>
+              </div>
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.minister.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.minister.label }}</label>
+                  <div class="col-sm-9"> {{ wedding.minister }} </div>
+                </div>
+              </div>
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.status.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.service_status.label }}</label>
+                  <div class="col-sm-7"> {{ wedding.service_status }} </div>
+                </div>
+              </div>
+            </div>
+            
+            <!--new-->
+            <div class="form-row labels-right">
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.dear.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.dear.label }}</label>
+                  <div class="col-sm-7"> {{ wedding.dear }} </div>
+                </div>
+              </div>
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.mail_title.id_for_label }}" class="col-sm-3 col-form-label">{{ wedding.mail_title.label }}</label>
+                  <div class="col-sm-9"> {{ wedding.mail_title }} </div>
+                </div>
+              </div>
+              <div class="form-group col-md">
+                <div class="form-group row">
+                  <label for="{{ wedding.banns_date.id_for_label }}" class="col-sm-5 col-form-label">{{ wedding.banns_date.label }}</label>
+                  <div class="col-sm-7"> {{ wedding.banns_date }} </div>
+                </div>
+              </div>
+            </div>
+            <!--new ends--> 
+            
+          </section>
+          <div class="wedding-details">
+            <ul class="nav nav-tabs" id="wedding-tabs" role="tablist">
+              <li class="nav-item"> <a class="nav-link" id="bride-groom-tab" data-toggle="tab" role="tab" href="#bride-groom">
+                <h6>Bride and Groom</h6>
+                </a> </li>
+              <li class="nav-item"> <a class="nav-link active" id="wedding-details-tab" data-toggle="tab" role="tab" href="#wedding-details">
+                <h6>Wedding Detail</h6>
+                </a> </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade" id="bride-groom" role="tabpanel" aria-labelledby="home-tab">
+                <section>
+                  <h4>Bride and Groom</h4>
+                  <div class="container">
+                    <div class="row form-horizontal">
+                      <div class="col-sm">
+                        <div class="form-group row" style="margin-bottom:20px !important;">
+                          <label class="col-sm-4"> Groom's Details </label>
+                          <div class="col-sm-8">
+                            <input type="text" id="id_input" >
+                          </div>
+                        </div>
+                        <table class="table table-striped">
+                          <tr>
+                            <th width="40%">Full Name</th>
+                            <td>{{ groom.first_name }} {{ groom.last_name }}</td>
+                          </tr>
+                          <tr>
+                            <th>Address</th>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <th>Proof of Id.</th>
+                            <td>{{ groom.proof }}</td>
+                          </tr>
+                          <tr>
+                            <th>Tel / Mob</th>
+                            <td>{{ groom.phone }}</td>
+                          </tr>
+                          <tr>
+                            <th>E-Mail</th>
+                            <td>{{ groom.email }}</td>
+                          </tr>
+                          <tr>
+                            <th>DOB</th>
+                            <td>{{ groom.dob }}</td>
+                          </tr>
+                          <tr>
+                            <th>Occupation</th>
+                            <td>{{ groom.occupation }}</td>
+                          </tr>
+                          <tr>
+                            <th>Status</th>
+                            <td>{{ groom.status }}</td>
+                          </tr>
+                          <tr>
+                            <th>Nationality</th>
+                            <td>{{ groom.nationality }}</td>
+                          </tr>
+                          <tr>
+                            <th>Parish</th>
+                            <td>{{ groom.church }}</td>
+                          </tr>
+                        </table>
+                      </div>
+                      <div class="col-sm">
+                        <div class="form-group row" style="margin-bottom:20px !important;">
+                          <label class="col-sm-4"> Bride's Details </label>
+                          <div class="col-sm-8">
+                            <input type="text" id="id_input_bride">
+                          </div>
+                        </div>
+                        <table class="table table-striped">
+                          <tr>
+                            <th width="40%">Full Name</th>
+                            <td>{{ bride.first_name }} {{ bride.last_name }}</td>
+                          </tr>
+                          <tr>
+                            <th>Address</th>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <th>Proof of Id.</th>
+                            <td>{{ bride.proof }}</td>
+                          </tr>
+                          <tr>
+                            <th>Tel / Mob</th>
+                            <td>{{ bride.phone }}</td>
+                          </tr>
+                          <tr>
+                            <th>E-Mail</th>
+                            <td>{{ bride.email }}</td>
+                          </tr>
+                          <tr>
+                            <th>DOB</th>
+                            <td>{{ bride.dob }}</td>
+                          </tr>
+                          <tr>
+                            <th>Occupation</th>
+                            <td>{{ bride.occupation }}</td>
+                          </tr>
+                          <tr>
+                            <th>Status</th>
+                            <td>{{ bride.status }}</td>
+                          </tr>
+                          <tr>
+                            <th>Nationality</th>
+                            <td>{{ bride.nationality }}</td>
+                          </tr>
+                          <tr>
+                            <th>Parish</th>
+                            <td>{{ bride.church }}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="tab-pane fade show active" id="wedding-details" role="tabpanel" aria-labelledby="profile-tab">
+                <section>
+                  <h4>Extras</h4>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.by_license.id_for_label }}" class=" col-form-label">{{ wedding.by_license.label }}</label>
+                    <div class=""> {{ wedding.by_license }} </div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.organ.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.organ.label }}</label>
+                    <div class="">{{ wedding.organ|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.choir.id_for_label }}" class="form-check-label col-form-label">{{ wedding.choir.label }}</label>
+                    <div class="">{{ wedding.choir|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.bells.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.bells.label }}</label>
+                    <div class="">{{ wedding.bells|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.flowers.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.flowers.label }}</label>
+                    <div class="">{{ wedding.flowers|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.video.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.video.label }}</label>
+                    <div class="">{{ wedding.video|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.cd.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.cd.label }}</label>
+                    <div class="">{{ wedding.cd|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.winter_heating.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.winter_heating.label }}</label>
+                    <div class="">{{ wedding.winter_heating|add_class:"form-check-input" }}</div>
+                  </div>
+                </section>
+                <section>
+                  <h4>Recommended Options</h4>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.verger.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.verger.label }}</label>
+                    <div class="">{{ wedding.verger|add_class:"form-check-input" }}</div>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="{{ wedding.car_park_attendant.id_for_label }}" class="form-check-label  col-form-label">{{ wedding.car_park_attendant.label }}</label>
+                    <div class="">{{ wedding.car_park_attendant|add_class:"form-check-input" }}</div>
+                  </div>
+                </section>
+                <section>
+                  <div class="d-flex p-2 justify-content-between">
+                    <h4>Readings</h4>
+                    <p>
+                      <button type="button" class="btn btn-primary js-create-reading"
+                                                    data-url="{% url 'reading_create'  wedding_id %}"> <span class="glyphicon glyphicon-plus"></span> New Reading </button>
+                    </p>
+                  </div>
+                  <table id="readings-table" class="table table-striped js-update-table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Bible</th>
+                        <th scope="col">Other</th>
+                        <th scope="col">Reader</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {% include 'includes/partial_readings_list.html' %}
+                      </tbody>
+                    
+                  </table>
+                </section>
+                <section>
+                  <div class="d-flex p-2 justify-content-between">
+                    <h4>Music</h4>
+                    <p>
+                      <button type="button" class="btn btn-primary js-create-hymn"
+                                                    data-url="{% url 'hymn_create' wedding_id %}"> <span class="glyphicon glyphicon-plus"></span> Add hymn </button>
+                    </p>
+                  </div>
+                  <table id="hymns-table" class="table table-striped js-update-table">
+                    <tbody>
+                    
+                    {% include 'includes/partial_hymns_list.html' %}
+                      </tbody>
+                    
+                  </table>
+                  <table class="table table-striped js-update-table">
+                    <tbody>
+                      <tr>
+                        <th>Marches</th>
+                        <td>{{ wedding.marches }}</td>
+                      </tr>
+                      <tr>
+                        <th>Singing</th>
+                        <td>{{ wedding.singing }}</td>
+                      </tr>
+                      <tr>
+                        <th>Organist</th>
+                        <td>{{ wedding.organist }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+                <section>
+                  <h4>Flowers</h4>
+                  <table class="table table-striped js-update-table">
+                    <tbody>
+                      <tr>
+                        <th>Details:</th>
+                        <td>{{ wedding.flowers_details }}</td>
+                      </tr>
+                      <tr>
+                        <th>Contact:</th>
+                        <td>{{ wedding.flowers_contact }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+                <section>
+                  <h4>Other Details</h4>
+                  <table id="testing-table" class="table table-striped js-update-table">
+                    <tbody>
+                      <tr>
+                        <th>Estimate Number of Guests</th>
+                        <td>{{ wedding.no_of_guests }}</td>
+                        <th>Access for Wheelchairs</th>
+                        <td>{{ wedding.wheelchair_access }}</td>
+                      </tr>
+                      <tr>
+                        <th>Rehearsal</th>
+                        <td>{{ wedding.rehearsal_date }}</td>
+                        <th>Time</th>
+                        <td>{{ wedding.rehearsal_time }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+                <section>
+                  <h4>Fees</h4>
+                  <div class="form-group row" style="margin-bottom:20px !important;">
+                    <label class="col-sm-4">Total Paid: </label>
+                    <div class="col-sm-5"> {{ wedding.total_paid }} </div>
+                  </div>
+                </section>
+                <section>
+                  <div class="form-group row" style="margin-bottom:20px !important;">
+                    <label class="col-sm-4">Dates and Amounts Paid: </label>
+                    <div class="col-sm-8"> {{ wedding.date_amount_paid }}</div>
+                  </div>
+                </section>
+                <section>
+                  <div class="form-row labels-right">
+                    <div class="form-group col-md">
+                      <div class="form-group row">
+                        <label for="" class="col-sm-5 col-form-label">First Visit</label>
+                        <div class="col-sm-7"> {{ wedding.first_visit }} </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md">
+                      <div class="form-group row">
+                        <label for="" class="col-sm-5 col-form-label">Second Visit </label>
+                        <div class="col-sm-7"> {{ wedding.second_visit }} </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md">
+                      <div class="form-group row">
+                        <label for="" class="col-sm-5 col-form-label">Third Visit</label>
+                        <div class="col-sm-7"> {{ wedding.third_visit }} </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section>
+                  <div class="form-row labels-right">
+                    <div class="form-group col-md">
+                      <div class="form-check form-check-inline">
+                        <label  class=" col-form-label">Evidence Filed: </label>
+                        <div class=""> {{ wedding.evidence_filed }} </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md">
+                      <div class="form-check form-check-inline">
+                        <label class=" col-form-label">Decree Abs Seen: </label>
+                        <div class=""> {{ wedding.decree_abs_seen }} </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md">
+                      <div class="form-check form-check-inline">
+                        <label  class="col-sm-5 col-form-label"> Banns no: </label>
+                        <div class="col-sm-7"> {{ wedding.banns_no }} </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </main>
 <script>
     $( function() {
@@ -378,13 +421,31 @@
             dateFormat: "yy-mm-dd"
         });
     });
-</script>
+	
+	jQuery(function() {
+    $("#id_input").on('keyup', function(){
+        var value = $(this).val();
+        $.ajax({
+            url: "{% url 'ajax_autocomplete' %}",
+            data: {
+              'search': value 
+            },
+            dataType: 'json',
+            success: function (data) {			
+                list = data.list;
+                $("#id_input").autocomplete({
+                source: list,
+                minLength: 3 
+                });       
+            }
+        });        
+    });
+  });
+</script> 
 
 <!-- THE MODAL WE WILL BE USING -->
 <div class="modal fade" id="modal-CRUD">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-    </div>
-
+<div class="modal-dialog">
+  <div class="modal-content"> </div>
+</div>
 {% endblock %}

@@ -17,7 +17,8 @@ urlpatterns = [
     url(r'^hymns/(?P<pk>\d+)/update$', views.hymn_update, name="hymn_update"),
     url(r'^hymns/(?P<pk>\d+)/delete$', views.hymn_delete, name="hymn_delete"),
 
-    url(r'^people/(?P<pk>\d+)/create/$', views.bride_create, name='add_bride'),
+    url(r'^people/(?P<pk>\d+)/create/$', views.person_create, name='person_create'),
+	url(r'^ajax/autocomplete/$', views.autocomplete, name='ajax_autocomplete')
 ]
 
 urlpatterns += [

@@ -1,12 +1,13 @@
 from django.apps import apps
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse,HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.six import iteritems
 from django.db import models
 import datetime
+from django.urls import reverse
 
 from .models import Person
 from .forms import PersonForm
@@ -40,7 +41,11 @@ def wedding_create(request):
         #form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
     return save_form(request, form, 'includes/partial_wedding_create.html', 'includes/partial_wedding_list.html', Wedding)
 
-
+def cleaned_data(self):        
+    if not self.is_valid():
+        raise AttributeError("'%s' object has no attribute 'cleaned_data'" % self.__class__.__name__)
+    return [form.cleaned_data for form in self.forms]
+		
 def wedding_update(request, pk):
     wedding = get_object_or_404(Wedding, pk=pk)
     if request.method == 'POST':
@@ -52,12 +57,17 @@ def wedding_update(request, pk):
             bride = Person.objects.get(wedding_id=pk, role='Bride')
         except ObjectDoesNotExist:
             bride = None
+			
         readings = ServiceReading.objects.filter(wedding_id=pk)
-        hymns = ServiceHymn.objects.filter(wedding_id=pk)
-        wedding_form = WeddingForm(request.POST, instance=wedding)
-        #return HttpResponse(request.POST.get('bride'))
+        hymns = ServiceHymn.objects.filter(wedding_id=pk)		
+        wedding_form = WeddingForm(request.POST, instance=wedding)		
+        
         if wedding_form.is_valid():
-            wedding_form.save()        
+            wedding.church_id = wedding_form.cleaned_data['church']
+            wedding.minister_id = wedding_form.cleaned_data['minister']
+            wedding.service_type_id = wedding_form.cleaned_data['service_type']
+            wedding.service_status_id = wedding_form.cleaned_data['service_status']
+        wedding.save()        
     else:
         wedding_form = WeddingForm(instance=wedding)
         readings = ServiceReading.objects.filter(wedding_id=pk)
@@ -241,6 +251,20 @@ def bride_create(request, pk):
         form = PersonForm()
     return save_person_form(request, form, 'includes/partial_person_create.html')
 
+def autocomplete(request):
+    if request.is_ajax():
+        queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
+        #queryset = Person.objects.all()
+        #queryset = list(Person.objects.filter(first_name__startswith=request.GET.get('search', None)).values());
+    #return HttpResponse(queryset)
+    list1 = []        
+    for i in queryset:
+            list1.append(i.first_name)
+    data = {
+            'list': list1,
+        }
+    return JsonResponse(data)
+		
 def save_person_form(request, form, template_name):
     print("Save person form run")
     data = dict()

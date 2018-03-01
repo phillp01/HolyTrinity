@@ -103,3 +103,13 @@ tbody   {
     border-left:1px solid #dee2e6;
     border-right:1px solid #dee2e6;
 }
+
+
+#wedding-details input[type="checkbox"], #wedding-details input[type="radio"] {
+	box-sizing: border-box;
+	margin: 7px !important; height:auto;
+}
+
+input[type="checkbox"]{height:auto;}
+
+
