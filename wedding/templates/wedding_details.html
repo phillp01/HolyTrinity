@@ -117,7 +117,7 @@
                         <table class="table table-striped">
                           <tr>
                             <th width="40%">Full Name</th>
-                            <td>{{ groom.first_name }} {{ groom.last_name }}</td>
+                            <td id="full_name">{{ groom.first_name }} {{ groom.last_name }}</td>
                           </tr>
                           <tr>
                             <th>Address</th>
@@ -125,35 +125,35 @@
                           </tr>
                           <tr>
                             <th>Proof of Id.</th>
-                            <td>{{ groom.proof }}</td>
+                            <td id="proof_id">{{ groom.proof }}</td>
                           </tr>
                           <tr>
                             <th>Tel / Mob</th>
-                            <td>{{ groom.phone }}</td>
+                            <td id="phone">{{ groom.phone }}</td>
                           </tr>
                           <tr>
                             <th>E-Mail</th>
-                            <td>{{ groom.email }}</td>
+                            <td id="email">{{ groom.email }}</td>
                           </tr>
                           <tr>
                             <th>DOB</th>
-                            <td>{{ groom.dob }}</td>
+                            <td id="dob">{{ groom.dob }}</td>
                           </tr>
                           <tr>
                             <th>Occupation</th>
-                            <td>{{ groom.occupation }}</td>
+                            <td id="occupation">{{ groom.occupation }}</td>
                           </tr>
                           <tr>
                             <th>Status</th>
-                            <td>{{ groom.status }}</td>
+                            <td id="status">{{ groom.status }}</td>
                           </tr>
                           <tr>
                             <th>Nationality</th>
-                            <td>{{ groom.nationality }}</td>
+                            <td id="nationality">{{ groom.nationality }}</td>
                           </tr>
                           <tr>
                             <th>Parish</th>
-                            <td>{{ groom.church }}</td>
+                            <td id="church">{{ groom.church }}</td>
                           </tr>
                         </table>
                       </div>
@@ -167,7 +167,7 @@
                         <table class="table table-striped">
                           <tr>
                             <th width="40%">Full Name</th>
-                            <td>{{ bride.first_name }} {{ bride.last_name }}</td>
+                            <td id="full_name2">{{ bride.first_name }} {{ bride.last_name }}</td>
                           </tr>
                           <tr>
                             <th>Address</th>
@@ -175,35 +175,35 @@
                           </tr>
                           <tr>
                             <th>Proof of Id.</th>
-                            <td>{{ bride.proof }}</td>
+                            <td id="proof_id2" >{{ bride.proof }}</td>
                           </tr>
                           <tr>
                             <th>Tel / Mob</th>
-                            <td>{{ bride.phone }}</td>
+                            <td id="phone2">{{ bride.phone }}</td>
                           </tr>
                           <tr>
                             <th>E-Mail</th>
-                            <td>{{ bride.email }}</td>
+                            <td id="email2">{{ bride.email }}</td>
                           </tr>
                           <tr>
                             <th>DOB</th>
-                            <td>{{ bride.dob }}</td>
+                            <td id="dob2">{{ bride.dob }}</td>
                           </tr>
                           <tr>
                             <th>Occupation</th>
-                            <td>{{ bride.occupation }}</td>
+                            <td id="occupation2">{{ bride.occupation }}</td>
                           </tr>
                           <tr>
                             <th>Status</th>
-                            <td>{{ bride.status }}</td>
+                            <td id="status2">{{ bride.status }}</td>
                           </tr>
                           <tr>
                             <th>Nationality</th>
-                            <td>{{ bride.nationality }}</td>
+                            <td id="nationality2">{{ bride.nationality }}</td>
                           </tr>
                           <tr>
                             <th>Parish</th>
-                            <td>{{ bride.church }}</td>
+                            <td id="church2">{{ bride.church }}</td>
                           </tr>
                         </table>
                       </div>
@@ -363,6 +363,12 @@
                     <div class="col-sm-8"> {{ wedding.date_amount_paid }}</div>
                   </div>
                 </section>
+				<section>
+                  <div class="form-group row" style="margin-bottom:20px !important;">
+                    <label class="col-sm-4">Notes: </label>
+                    <div class="col-sm-8"> {{ wedding.notes }}</div>
+                  </div>
+                </section>
                 <section>
                   <div class="form-row labels-right">
                     <div class="form-group col-md">
@@ -423,6 +429,15 @@
     });
 	
 	jQuery(function() {
+	var path = $(location).attr('pathname');	
+	var id_wedding = path.split("/")[2];
+	
+	if(id_wedding=='add'){
+		id_wedding = 0;
+	}else{
+		id_wedding = id_wedding;
+	}
+	
     $("#id_input").on('keyup', function(){
         var value = $(this).val();
         $.ajax({
@@ -432,17 +447,164 @@
             },
             dataType: 'json',
             success: function (data) {	
-				console.log(data)
-				console.log(data.first_name)
+			//alert('test')
+				console.log('test')
+				console.log(data.list)
                 list = data.list;
                 $("#id_input").autocomplete({
                 source: list,
-                minLength: 3 
-                });       
+                minLength: 3,
+					//close: function( event, ui ) { alert('uyit')  }
+					select: function (event, ui) {
+						//alert('jeck')						
+						//$("#Employee_txt").val(ui.item.label);
+						var name=ui.item.value;	
+							//console.log(getID)
+							//alert(list)
+							$.ajax({
+								type: 'POST',
+								dataType: 'json',
+								url: '/wedding/brideandgroomdetails/',
+								data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'name':name}
+							}).done(function(data1) {
+								//alert(data1[0]['bridengroom_data'][0]['email'])								
+								console.log(data1)
+								var person_id = data1[0]['bridengroom_data'][0]['id'];
+								var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
+								$('#full_name').html(full_name);
+								$('#email').html(data1[0]['bridengroom_data'][0]['email']);
+								var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];
+								
+								if(proof_id==1){
+									proof_id = 'Passport';
+								}else if(proof_id==2){
+									proof_id = 'Driver License';
+								}else if(proof_id==3){
+									proof_id = 'Birth Certificate';
+								}
+								$('#proof_id').html(proof_id);
+								$('#phone').html(data1[0]['bridengroom_data'][0]['phone']);
+								$('#dob').html(data1[0]['bridengroom_data'][0]['dob']);
+								$('#occupation').html(data1[0]['bridengroom_data'][0]['occupation']);
+								$('#status').html(data1[0]['bridengroom_data'][0]['status']);
+								$('#nationality').html(data1[0]['bridengroom_data'][0]['nationality']);
+								$('#church').html(data1[0]['bridengroom_data'][0]['church_id']);
+								//var church_id = data1[0]['bridengroom_data'][0]['church_id'];
+								
+								
+								callback2Function(id_wedding,person_id);
+							});
+							
+							
+					}
+                });     
+
+				function callback2Function(value,value2){
+					var weddingId=value;
+					var personId=value2;
+					//alert('sss'+personId);
+					$.ajax({
+							type: 'POST',
+							dataType: 'json',
+							url: '/wedding/auto_update_wedding_id/',
+							data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':weddingId,'personId':personId}
+						}).done(function(data) {
+							//console.log(data2)							
+						
+						});
+
+						
+				}
             }
         });        
     });
+	
+	
+	
+	    $("#id_input_bride").on('keyup', function(){
+        var value = $(this).val();
+        $.ajax({
+            url: "{% url 'ajax_autocomplete' %}",
+            data: {
+              'search': value 
+            },
+            dataType: 'json',
+            success: function (data) {	
+			//alert('test')
+				console.log('test')
+				console.log(data.list)
+                list = data.list;
+                $("#id_input_bride").autocomplete({
+                source: list,
+                minLength: 3,
+					//close: function( event, ui ) { alert('uyit')  }
+					select: function (event, ui) {
+						//alert('jeck')						
+						//$("#Employee_txt").val(ui.item.label);
+						var name=ui.item.value;	
+							//console.log(getID)
+							//alert(list)
+							$.ajax({
+								type: 'POST',
+								dataType: 'json',
+								url: '/wedding/brideandgroomdetails2/',
+								data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'name':name}
+							}).done(function(data1) {
+								//alert(data1[0]['bridengroom_data'][0]['email'])								
+								console.log(data1)
+								var person_id = data1[0]['bridengroom_data'][0]['id'];
+								var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
+								$('#full_name2').html(full_name);
+								$('#email2').html(data1[0]['bridengroom_data'][0]['email']);
+								var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];
+								
+								if(proof_id==1){
+									proof_id = 'Passport';
+								}else if(proof_id==2){
+									proof_id = 'Driver License';
+								}else if(proof_id==3){
+									proof_id = 'Birth Certificate';
+								}
+								$('#proof_id2').html(proof_id);
+								$('#phone2').html(data1[0]['bridengroom_data'][0]['phone']);
+								$('#dob2').html(data1[0]['bridengroom_data'][0]['dob']);
+								$('#occupation2').html(data1[0]['bridengroom_data'][0]['occupation']);
+								$('#status2').html(data1[0]['bridengroom_data'][0]['status']);
+								$('#nationality2').html(data1[0]['bridengroom_data'][0]['nationality']);
+								$('#church2').html(data1[0]['bridengroom_data'][0]['church_id']);
+								//var church_id = data1[0]['bridengroom_data'][0]['church_id'];
+																
+								callback3Function(id_wedding,person_id);
+							});
+							
+							
+					}
+                });     
+
+				function callback3Function(value,value2){
+					var weddingId=value;
+					var personId=value2;
+					//alert('sss'+personId);
+					$.ajax({
+							type: 'POST',
+							dataType: 'json',
+							url: '/wedding/auto_update_wedding_id2/',
+							data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':weddingId,'personId':personId}
+						}).done(function(data2) {
+							//console.log(data2)							
+						
+						});
+						
+				}
+            }
+        });        
+    });
+	
+	
+	
+	
   });
+  
 </script> 
 
 <!-- THE MODAL WE WILL BE USING -->

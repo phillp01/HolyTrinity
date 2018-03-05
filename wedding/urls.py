@@ -24,3 +24,19 @@ urlpatterns = [
 urlpatterns += [
     url('total_wedding_amount/', views.total_wedding_amount, name='total_wedding_amount'),
 ]
+
+urlpatterns += [
+    url('brideandgroomdetails/', views.brideandgroomdetails, name='brideandgroomdetails'),
+]
+
+urlpatterns += [
+    url('auto_update_wedding_id/', views.auto_update_wedding_id, name='auto_update_wedding_id'),
+]
+
+
+urlpatterns += [
+    url('brideandgroomdetails2/', views.brideandgroomdetails2, name='brideandgroomdetails2'),
+]
+urlpatterns += [
+    url('auto_update_wedding_id2/', views.auto_update_wedding_id2, name='auto_update_wedding_id2'),
+]

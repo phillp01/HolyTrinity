@@ -273,46 +273,14 @@ def brideandgroomdetails(request):
     return JsonResponse(data, safe=False)
 	
 def auto_update_wedding_id(request):
-    personId = request.POST['personId'];
     weddingId = request.POST['weddingId'];
-    #wedding = list(Wedding.objects.filter(id=weddingId).values());
-    #return JsonResponse(personId, safe=False)
-    wedding = Wedding.objects.get(id=weddingId);
-    wedding.groom_id = personId;
-    #data[{'groom_id':personId}]
-    wedding.save();    
-    #return JsonResponse(data, safe=False)
-    
-    #person = Person.objects.get(id=personId)   
-    #person.wedding_id = weddingId;
-    #person.save();
-    data[{'groom_id':personId}]
-    return HttpResponse(data, safe=False)
-	
-def brideandgroomdetails2(request):
-    name = request.POST['name'];
-    #return HttpResponse(name)
-    bridengroom_data = list(Person.objects.filter(first_name=name).values());
-    #return HttpResponse(bridengroom_data)
-    data = [{'bridengroom_data':bridengroom_data}]  
+    personId = request.POST['personId'];
+    person = Person.objects.get(id=personId)
+    #person = list(Person.objects.filter(id=personId).values())
+    person.wedding_id = weddingId;
+    person.save();
+    data[{'successmsg':'Wedding Updated successfully!'}]
     return JsonResponse(data, safe=False)
-
-def auto_update_wedding_id2(request):
-    personId = request.POST['personId'];
-    weddingId = request.POST['weddingId'];
-    #wedding = list(Wedding.objects.filter(id=weddingId).values());
-    #return JsonResponse(personId, safe=False)
-    wedding = Wedding.objects.get(id=weddingId);
-    wedding.bride_id = personId;
-    #data[{'bride_id':personId}]
-    wedding.save();    
-    #return JsonResponse(data, safe=False)
-    
-    #person = Person.objects.get(id=personId)   
-    #person.wedding_id = weddingId;
-    #person.save();
-    #data[{'successmsg':'Wedding Updated successfully!'}]
-    #return JsonResponse(data, safe=False)
 	
 def save_person_form(request, form, template_name):
     print("Save person form run")

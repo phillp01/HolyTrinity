@@ -1,16 +1,20 @@
 from django.apps import apps
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse,HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.six import iteritems
 from django.db import models
 import datetime
+from django.urls import reverse
+
+from .models import Person
+from .forms import PersonForm
 from .forms import WeddingForm, ReadingForm, HymnForm
 #from .models import Wedding, ServiceReading, ServiceHymn, additionalServices
 from .models import Wedding, ServiceReading, ServiceHymn
-from main_app.models import Person,Church
+from main_app.models import Person,Church,Ministers
 from main_app.views import save_form, person_create
 
 from decimal import *
@@ -34,18 +38,31 @@ def wedding_create(request):
         form = WeddingForm(request.POST)
     else:
         form = WeddingForm()
-        form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
+        #form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
     return save_form(request, form, 'includes/partial_wedding_create.html', 'includes/partial_wedding_list.html', Wedding)
 
-
+def cleaned_data(self):        
+    if not self.is_valid():
+        raise AttributeError("'%s' object has no attribute 'cleaned_data'" % self.__class__.__name__)
+    return [form.cleaned_data for form in self.forms]
+		
 def wedding_update(request, pk):
     wedding = get_object_or_404(Wedding, pk=pk)
     if request.method == 'POST':
+        try:
+            groom = Person.objects.get(wedding_id=pk, role='Groom')
+        except ObjectDoesNotExist:
+            groom = None
+        try:
+            bride = Person.objects.get(wedding_id=pk, role='Bride')
+        except ObjectDoesNotExist:
+            bride = None        	
         readings = ServiceReading.objects.filter(wedding_id=pk)
-        hymns = ServiceHymn.objects.filter(wedding_id=pk)
-        wedding_form = WeddingForm(request.POST, instance=wedding)
-        if wedding_form.is_valid():
-            wedding_form.save()
+        hymns = ServiceHymn.objects.filter(wedding_id=pk)		
+        wedding_form = WeddingForm(request.POST, instance=wedding)		
+        
+        if wedding_form.is_valid(): 
+            wedding.save()        
     else:
         wedding_form = WeddingForm(instance=wedding)
         readings = ServiceReading.objects.filter(wedding_id=pk)
@@ -217,18 +234,96 @@ def save_hymn_form(request, form, template_name, hymn):
     return JsonResponse(data)
 
 def bride_create(request, pk):
-    print("Bride create run with wedding id = ", pk)
-    person_create(request, pk)
+    #print("Bride create run with wedding id = ", pk)
+    #person_create(request, pk)
     # return HttpResponse("<h1>GOGOGO</h1>")
+    print("Person_create view run with wedding id", pk)
+    if request.method == 'POST':
+        print("request is POST")
+        form = PersonForm(request.POST)
+    else:
+        print("request is get")
+        form = PersonForm()
+    return save_person_form(request, form, 'includes/partial_person_create.html')
 
+def autocomplete(request):
+    if request.is_ajax():
+        queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
+        #queryset = Person.objects.all()
+        #queryset = list(Person.objects.filter(first_name__startswith=request.GET.get('search', None)).values('id','first_name'));
+        #queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
+    #return HttpResponse(queryset)
+    list = []        
+    #list2 = queryset        
+    for i in queryset:
+            #return HttpResponse(queryset)
+            list.append(i.id)            
+            list.append(i.first_name)            
+    data = {
+            'list': list,
+        }
+    return JsonResponse(data)
 
+def brideandgroomdetails(request):
+    name = request.POST['name'];
+    #return HttpResponse(name)
+    bridengroom_data = list(Person.objects.filter(first_name=name).values());
+    #return HttpResponse(bridengroom_data)
+    data = [{'bridengroom_data':bridengroom_data}]  
+    return JsonResponse(data, safe=False)
+	
+def auto_update_wedding_id(request):
+    personId = request.POST['personId'];
+    weddingId = request.POST['weddingId'];
+    #wedding = list(Wedding.objects.filter(id=weddingId).values());
+    #return JsonResponse(personId, safe=False)
+    #wedding = Wedding.objects.get(id=weddingId);
+    #wedding.groom_id = personId;
+    #wedding.save();
+    #return JsonResponse(wedding, safe=False)
+    
+    person = Person.objects.get(id=personId)
+    #person = list(Person.objects.filter(id=personId).values())
+    person.wedding_id = weddingId;
+    person.save();
+    data[{'successmsg':'Wedding Updated successfully!'}]
+    return JsonResponse(data, safe=False)
+	
+def save_person_form(request, form, template_name):
+    print("Save person form run")
+    data = dict()
+    if request.method == 'POST':
+        print("Save person is POST")
+        if form.is_valid():
+            print("save person form - form is valid")
+            form.save()
+            data['form_is_valid'] = True
+            all_people = Person.objects.all()
+            data['html_list'] = render_to_string('includes/partial_people_list.html', {'people':  all_people})
+        else:
+            print("save person form - form is NOT valid")
+            data['form_is_valid'] = False
+    else:
+        print("Save person is get")
+    context = {"form": form}
+
+    print("Context =", context)
+    print("Template name =", template_name)
+    # render_to_string('includes/partial_person_create.html', context, request=request)
+    data['html_form'] = render_to_string('includes/partial_person_create.html', context, request=request)
+    # data['html_form'] = "<div>hello</div>"
+
+    return JsonResponse(data)
+    # return HttpResponse("HELLO")
+	
+	
 def total_wedding_amount(request):
-    id_wedding = 3;
+    id_wedding = request.POST['id_wedding']	;
     model = 'Church'   
     app = 'main_app'
     total_amount = Decimal(0.00)
     model_class = get_model(app, model)
- 
+
     by_license = request.POST['checked_array[0][by_license]']
     choir = request.POST['checked_array[1][choir]']
     organ = request.POST['checked_array[2][organ]']
@@ -242,103 +337,142 @@ def total_wedding_amount(request):
 	
     id_church = request.POST['id_church']	
 	
+    if id_wedding != '0':
+        model = 'Wedding'
+        app = 'wedding'
+        #return HttpResponse(id_wedding);
+        wedding_data = list(Wedding.objects.filter(id=id_wedding).values());
+    else:
+        wedding_data = '0';
+    #return HttpResponse(wedding_data);
     #all_data = list(Church.objects.values())
     all_data = list(Church.objects.filter(id=id_church).values())
     
 	
     now=datetime.datetime.now().date()
-	
-    if all_data[0]['statutory_upcoming_date'] > now:
-        total_amount = total_amount + all_data[0]['statutory_current_price']
+
+    if wedding_data!='0' and wedding_data[0]['church_price']!=0.0000:        
+        total_amount = total_amount + wedding_data[0]['church_price']
     else:
-        total_amount = total_amount + all_data[0]['statutory_upcoming_price']
-	
+        if all_data[0]['statutory_upcoming_date'] > now:
+            total_amount = total_amount + all_data[0]['statutory_current_price']			
+        else:
+            total_amount = total_amount + all_data[0]['statutory_upcoming_price']			
+
     if by_license == '1':
-        total_amount = total_amount + all_data[0]['by_license']
-  
+        if wedding_data!='0' and wedding_data[0]['by_license_price']!=0.0000:			
+            total_amount = total_amount + wedding_data[0]['by_license_price'];
+        else:
+            total_amount = total_amount + all_data[0]['by_license']			
+ 
     if choir == '1':
-        total_amount = total_amount + all_data[0]['choir']
-  
+        if wedding_data!='0' and wedding_data[0]['choir_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['choir_price'];
+        else:
+            total_amount = total_amount + all_data[0]['by_license']
+
     if organ == '1':
-        total_amount = total_amount + all_data[0]['organ']
-  
+        if wedding_data!='0' and wedding_data[0]['organ_price']!=0.0000:		
+            total_amount = total_amount + wedding_data[0]['organ_price'];
+        else:
+            total_amount = total_amount + all_data[0]['organ']
+
     if bells == '1':
-        total_amount = total_amount + all_data[0]['bells']
-  
+        if wedding_data!='0' and wedding_data[0]['bells_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['bells_price'];
+        else:			
+            total_amount = total_amount + all_data[0]['bells']
+
     if flowers == '1':
-        total_amount = total_amount + all_data[0]['flowers']
-  
+        if wedding_data!='0' and wedding_data[0]['flowers_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['flowers_price'];			
+        else:
+            total_amount = total_amount + all_data[0]['flowers']
+			
     if video == '1':
-        total_amount = total_amount + all_data[0]['video']
-  
+        if wedding_data!='0' and wedding_data[0]['video_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['video_price'];
+        else:
+            total_amount = total_amount + all_data[0]['video']
+   
     if cd == '1':
-        total_amount = total_amount + all_data[0]['cd']
-  
+        if wedding_data!='0' and wedding_data[0]['cd_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['cd_price'];	
+        else:
+            total_amount = total_amount + all_data[0]['cd']
+
     if winter_heating == '1':
-        total_amount = total_amount + all_data[0]['winter_heating']
+        if wedding_data!='0' and wedding_data[0]['winter_heating_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['winter_heating_price'];
+        else:
+            total_amount = total_amount + all_data[0]['winter_heating']
   
     if verger == '1':
-        total_amount = total_amount + all_data[0]['verger']
+        if wedding_data!='0' and wedding_data[0]['verger_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['verger_price'];	
+        else:
+            total_amount = total_amount + all_data[0]['verger']
   
     if car_park_attendant == '1':
-        total_amount = total_amount + all_data[0]['car_park_attendant']
+        if wedding_data!='0' and wedding_data[0]['car_park_attendant_price']!=0.0000:
+            total_amount = total_amount + wedding_data[0]['car_park_attendant_price'];
+        else:
+            total_amount = total_amount + all_data[0]['car_park_attendant']
 		
-        total_amount = total_amount + all_data[0]['by_license']
+        #total_amount = total_amount ;
 		
-    if id_wedding:
-        model = 'Wedding'
-        app = 'wedding'
-        wedding_data = list(Wedding.objects.filter(id=id_wedding).values())
-
-    if wedding_data[0]['by_license_price']=='0.0000':
+        #return HttpResponse(total_amount);
+		
+    if wedding_data!='0' and wedding_data[0]['by_license_price']!=0.0000:
         by_license_price = wedding_data[0]['by_license_price'];		
     else:by_license_price = all_data[0]['by_license'];
 	
-    if wedding_data[0]['video_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['video_price']!=0.0000:
         video_price = wedding_data[0]['video_price'];		
     else:video_price = all_data[0]['video'];
 
-    if wedding_data[0]['cd_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['cd_price']!=0.0000:
         cd_price = wedding_data[0]['cd_price'];		
     else:cd_price = all_data[0]['cd'];
 
-    if wedding_data[0]['winter_heating_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['winter_heating_price']!=0.0000:
         winter_heating_price = wedding_data[0]['winter_heating_price'];		
     else:winter_heating_price = all_data[0]['winter_heating'];
 
-    if wedding_data[0]['organ_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['organ_price']!=0.0000:
         organ_price = wedding_data[0]['organ_price'];		
     else:organ_price = all_data[0]['organ'];
 
-    if wedding_data[0]['choir_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['choir_price']!=0.0000:
         choir_price = wedding_data[0]['choir_price'];		
     else:choir_price = all_data[0]['choir'];
 
-    if wedding_data[0]['bells_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['bells_price']!=0.0000:
         bells_price = wedding_data[0]['bells_price'];		
     else:bells_price = all_data[0]['bells'];
 
-    if wedding_data[0]['flowers_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['flowers_price']!=0.0000:
         flowers_price = wedding_data[0]['flowers_price'];		
     else:flowers_price = all_data[0]['flowers'];
 
-    if wedding_data[0]['verger_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['verger_price']!=0.0000:
         verger_price = wedding_data[0]['verger_price'];		
     else:verger_price = all_data[0]['verger'];
 
-    if wedding_data[0]['car_park_attendant_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['car_park_attendant_price']!=0.0000:
         car_park_attendant_price = wedding_data[0]['car_park_attendant_price'];		
     else:car_park_attendant_price = all_data[0]['car_park_attendant'];
 	
-    if wedding_data[0]['church_price']=='0.0000':
+    if wedding_data!='0' and wedding_data[0]['church_price']!=0.0000:
         church_price = wedding_data[0]['church_price'];		
     else:
         if all_data[0]['statutory_upcoming_date'] > now:
             church_price = all_data[0]['statutory_current_price']
         else:
             church_price = all_data[0]['statutory_upcoming_price']
-			
-    data = [{'total_amount':total_amount},{'church_price':church_price},{'car_park_attendant_price':car_park_attendant_price}]
+	
+	
+    data = [{'total_amount':total_amount},{'by_license_price':by_license_price},{'video_price':video_price},{'cd_price':cd_price},{'winter_heating_price':winter_heating_price},{'organ_price':organ_price},{'choir_price':choir_price},{'bells_price':bells_price},{'flowers_price':flowers_price},{'verger_price':verger_price},{'car_park_attendant_price':car_park_attendant_price},{'church_price':church_price}]
 	        		
         
-    return HttpResponse(total_amount)
+    return JsonResponse(data, safe=False)
