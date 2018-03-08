@@ -27,16 +27,14 @@ urlpatterns += [
 
 urlpatterns += [
     url('brideandgroomdetails/', views.brideandgroomdetails, name='brideandgroomdetails'),
+	url('auto_update_wedding_id/', views.auto_update_wedding_id, name='auto_update_wedding_id'),
+	url('brideandgroomdetails2/', views.brideandgroomdetails2, name='brideandgroomdetails2'),
+	url('auto_update_wedding_id2/', views.auto_update_wedding_id2, name='auto_update_wedding_id2'),
 ]
 
 urlpatterns += [
-    url('auto_update_wedding_id/', views.auto_update_wedding_id, name='auto_update_wedding_id'),
-]
-
-
-urlpatterns += [
-    url('brideandgroomdetails2/', views.brideandgroomdetails2, name='brideandgroomdetails2'),
-]
-urlpatterns += [
-    url('auto_update_wedding_id2/', views.auto_update_wedding_id2, name='auto_update_wedding_id2'),
+	 url('get_bride_groom_id/', views.get_bride_groom_id, name='get_bride_groom_id'),    
+	 url('groomDetails/', views.groomDetails, name='groomDetails'),
+     url('brideDetails/', views.brideDetails, name='brideDetails'),
+     url('get_church/', views.get_church, name='get_church'),
 ]

@@ -89,7 +89,7 @@ class Person(models.Model):
         ('Widowed', 'Widowed'),
         ('CPD', 'Civil Partnership Dissolved'),
     )
-    status = models.CharField(max_length=3, choices=STATUS_CHOICES, blank=True)
+    status = models.CharField(max_length=150, choices=STATUS_CHOICES, blank=True)
     nationality = models.CharField(max_length=20, blank=True)
     church = models.ForeignKey(Church, on_delete=models.CASCADE, related_name='church', blank=True)
     qualifying_connection = models.ForeignKey(qualifyingConnections, on_delete=models.CASCADE, related_name='qualConnect', blank=True)

@@ -28,7 +28,7 @@
 			
 			
 			$(document).on('change', '#id_church, #id_by_license, #id_organ, #id_choir, #id_bells, #id_flowers, #id_video, #id_cd, #id_winter_heating, #id_verger, #id_car_park_attendant', function(e) {
-				var my_field = $(this);
+				var my_field = $(this);								
 				if(!$('#id_church').val()){
 					my_field.prop('checked', false);
 					alert('Please Select Church first!');

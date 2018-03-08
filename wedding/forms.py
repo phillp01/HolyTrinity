@@ -6,6 +6,7 @@ class WeddingForm(forms.ModelForm):
 
     class Meta:
         model = Wedding
+        #exclude = ("church","time","mail_title","dear",)
         fields = [
             'date',
             'time',            
@@ -51,6 +52,7 @@ class WeddingForm(forms.ModelForm):
         ]
         widgets = {
             'date': forms.DateInput(attrs={'class': 'datepicker'}),
+            'banns_date': forms.DateInput(attrs={'class': 'datepicker'}),
         }
 		
 

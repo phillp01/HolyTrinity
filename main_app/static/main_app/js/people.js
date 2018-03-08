@@ -28,9 +28,10 @@ $(function () {
       success: function (data) {
         if (data.form_is_valid) {
           console.log("Data is valid");
+	//alert(form);
           // $(".js-update-table").find("tbody").html(data.html_reading_list);
-            console.log("RL=", data.html_reading_list);
-          $("#" + form.attr("table-id")).find("tbody").html(data.html_reading_list);
+            console.log("RL=", data.html_list);
+          $("#" + form.attr("table-id")).find("tbody").html(data.html_list);
           $("#modal-CRUD").modal("hide");
         }
         else {

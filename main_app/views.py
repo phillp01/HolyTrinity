@@ -61,8 +61,7 @@ def save_person_form(request, form, template_name):
     # return HttpResponse("HELLO")
 
 
-def person_create(request, pk):
-    print("Person_create view run with wedding id", pk)
+def person_create(request):
     if request.method == 'POST':
         print("request is POST")
         form = PersonForm(request.POST)
