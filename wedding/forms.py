@@ -2,6 +2,25 @@ from django import forms
 from .models import Wedding, ServiceReading, ServiceHymn,Person
 from decimal import Decimal
 
+class WeddingShortForm(forms.ModelForm):
+
+    class Meta:
+        model = Wedding
+        #exclude = ("church","time","mail_title","dear",)
+        fields = [
+            'date',
+            'time',            
+            'church',            
+            'groom',            
+            'bride',            
+            'minister',
+            'service_type'            		
+        ]
+        widgets = {
+            'date': forms.DateInput(attrs={'class': 'datepicker'}),
+            #'banns_date': forms.DateInput(attrs={'class': 'datepicker'}),
+        }
+
 class WeddingForm(forms.ModelForm):
 
     class Meta:

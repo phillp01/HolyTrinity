@@ -32,7 +32,7 @@ class Wedding(models.Model):
     service_status = models.ForeignKey(ServiceStatus, on_delete=models.CASCADE, related_name='status', default=1)
     dear = models.CharField(max_length=20)
     mail_title = models.CharField(max_length=30)
-    banns_date = models.DateField()
+    banns_date = models.DateField(null=True, blank=True)
     bible = models.CharField(max_length=20,null=True, blank=True)
     reader = models.CharField(max_length=20,null=True, blank=True,verbose_name='Bible Reader')
     other = models.CharField(max_length=20,null=True, blank=True)

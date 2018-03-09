@@ -104,7 +104,10 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade" id="bride-groom" role="tabpanel" aria-labelledby="home-tab">
                 <section>
-                  <h4>Bride and Groom</h4>
+                  <h4>Bride and Groom<button type="button" class="btn btn-primary float-right js-create-person"
+				  data-url="{% url 'person_create' %}">
+					<span class="fal fa-user-plus"></span> New Person
+				  </button></h4>
                   <div class="container">
                     <div class="row form-horizontal">
                       <div class="col-sm">
@@ -438,176 +441,179 @@ jQuery(function() {
 		id_wedding = id_wedding;
 	}
 	
-    $("#id_input").on('keyup', function(){
+  $("#id_input").on('keyup', function(){
         var value = $(this).val();
         $.ajax({
             url: "{% url 'ajax_autocomplete' %}",
             data: {
-              'search': value 
+              'search': value ,
+              'role' : 'Groom'
             },
             dataType: 'json',
-            success: function (data) {	
-				//console.log(data.list)
+            success: function (data) {  
+        //console.log(data.list)
                 list = data.list;
                 $("#id_input").autocomplete({
                 source: list,
                 minLength: 3,
-					//close: function( event, ui ) { alert('uyit')  }
-					select: function (event, ui) {						
-						var name=ui.item.value;	
-							//console.log(name)							
-							$.ajax({
-								type: 'POST',
-								dataType: 'json',
-								url: '/wedding/brideandgroomdetails/',
-								data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'name':name}
-							}).done(function(data1) {																
-								//console.log(data1)
-								var person_id = data1[0]['bridengroom_data'][0]['id'];
-								var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
-								$('#full_name').html(full_name);
-								$('#email').html(data1[0]['bridengroom_data'][0]['email']);
-								var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];
-								
-								if(proof_id==1){
-									proof_id = 'Passport';
-								}else if(proof_id==2){
-									proof_id = 'Driver License';
-								}else if(proof_id==3){
-									proof_id = 'Birth Certificate';
-								}
-								$('#proof_id').html(proof_id);
-								$('#phone').html(data1[0]['bridengroom_data'][0]['phone']);
-								$('#dob').html(data1[0]['bridengroom_data'][0]['dob']);
-								$('#occupation').html(data1[0]['bridengroom_data'][0]['occupation']);
-								$('#status').html(data1[0]['bridengroom_data'][0]['status']);
-								$('#nationality').html(data1[0]['bridengroom_data'][0]['nationality']);
-								//$('#church').html(data1[0]['bridengroom_data'][0]['church_id']);
-								if(data1[0]['bridengroom_data'][0]['church_id'] !='' && data1[0]['bridengroom_data'][0]['church_id']!=0){
-									var churchId = data1[0]['bridengroom_data'][0]['church_id'];
-									$.ajax({
-										type: 'POST',
-										dataType: 'json',
-										url: '/wedding/get_church/',
-										data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'churchId':churchId}
-									}).done(function(data2){													
-										$('#church').html(data2[0]['church_name']);
-									});
-								}
-								
-								
-								//callback2Function(id_wedding,person_id);								
-								$.ajax({
-									type: 'POST',
-									dataType: 'json',
-									url: '/wedding/auto_update_wedding_id/',
-									data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':id_wedding,'personId':person_id}
-								}).done(function(data) {																						
-								
-								});
-								
-							});
-							
-							
-					}
+          //close: function( event, ui ) { alert('uyit')  }
+          select: function (event, ui) {            
+            var id=ui.item.id;  
+              //console.log(name)             
+              $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/wedding/brideandgroomdetails/',
+                data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'id':id}
+              }).done(function(data1) {                               
+                //console.log(data1)
+                var person_id = data1[0]['bridengroom_data'][0]['id'];
+                var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
+                $('#full_name').html(full_name);
+                $('#email').html(data1[0]['bridengroom_data'][0]['email']);
+                var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];
+                
+                if(proof_id==1){
+                  proof_id = 'Passport';
+                }else if(proof_id==2){
+                  proof_id = 'Driver License';
+                }else if(proof_id==3){
+                  proof_id = 'Birth Certificate';
+                }
+                $('#proof_id').html(proof_id);
+                $('#phone').html(data1[0]['bridengroom_data'][0]['phone']);
+                $('#dob').html(data1[0]['bridengroom_data'][0]['dob']);
+                $('#occupation').html(data1[0]['bridengroom_data'][0]['occupation']);
+                $('#status').html(data1[0]['bridengroom_data'][0]['status']);
+                $('#nationality').html(data1[0]['bridengroom_data'][0]['nationality']);
+                //$('#church').html(data1[0]['bridengroom_data'][0]['church_id']);
+                if(data1[0]['bridengroom_data'][0]['church_id'] !='' && data1[0]['bridengroom_data'][0]['church_id']!=0){
+                  var churchId = data1[0]['bridengroom_data'][0]['church_id'];
+                  $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/wedding/get_church/',
+                    data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'churchId':churchId}
+                  }).done(function(data2){                          
+                    $('#church').html(data2[0]['church_name']);
+                  });
+                }
+                
+                
+                //callback2Function(id_wedding,person_id);                
+                $.ajax({
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '/wedding/auto_update_wedding_id/',
+                  data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':id_wedding,'personId':person_id}
+                }).done(function(data) {                                            
+                
+                });
+                
+              });
+              
+              
+          }
                 });     
 
-				/*function callback2Function(value,value2){
-					var weddingId=value;
-					var personId=value2;					
-					$.ajax({
-							type: 'POST',
-							dataType: 'json',
-							url: '/wedding/auto_update_wedding_id/',
-							data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':weddingId,'personId':personId}
-						}).done(function(data) {							
-						});						
-				}*/
-				
+        /*function callback2Function(value,value2){
+          var weddingId=value;
+          var personId=value2;          
+          $.ajax({
+              type: 'POST',
+              dataType: 'json',
+              url: '/wedding/auto_update_wedding_id/',
+              data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':weddingId,'personId':personId}
+            }).done(function(data) {              
+            });           
+        }*/
+        
             }
         });        
     });
 	
 	
 	
-	 $("#id_input_bride").on('keyup', function(){
+	$("#id_input_bride").on('keyup', function(){
         var value = $(this).val();
         $.ajax({
             url: "{% url 'ajax_autocomplete' %}",
             data: {
-              'search': value 
+              'search': value,
+              'role' : 'Bride'
             },
             dataType: 'json',
             success: function (data) {
+
                 list = data.list;
                 $("#id_input_bride").autocomplete({
                 source: list,
                 minLength: 3,
-					//close: function( event, ui ) { alert('uyit')  }
-					select: function (event, ui) {					
-						var name=ui.item.value;	
-							//console.log(name)							
-							$.ajax({
-								type: 'POST',
-								dataType: 'json',
-								url: '/wedding/brideandgroomdetails2/',
-								data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'name':name}
-							}).done(function(data1) {																
-								//console.log(data1)
-								var person_id = data1[0]['bridengroom_data'][0]['id'];
-								var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
-								$('#full_name2').html(full_name);
-								$('#email2').html(data1[0]['bridengroom_data'][0]['email']);
-								var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];						
-								if(proof_id==1){
-									proof_id = 'Passport';
-								}else if(proof_id==2){
-									proof_id = 'Driver License';
-								}else if(proof_id==3){
-									proof_id = 'Birth Certificate';
-								}
-								$('#proof_id2').html(proof_id);
-								$('#phone2').html(data1[0]['bridengroom_data'][0]['phone']);
-								$('#dob2').html(data1[0]['bridengroom_data'][0]['dob']);
-								$('#occupation2').html(data1[0]['bridengroom_data'][0]['occupation']);
-								$('#status2').html(data1[0]['bridengroom_data'][0]['status']);
-								$('#nationality2').html(data1[0]['bridengroom_data'][0]['nationality']);
-								//$('#church2').html(data1[0]['bridengroom_data'][0]['church_id']);
-								if(data1[0]['bridengroom_data'][0]['church_id'] !='' && data1[0]['bridengroom_data'][0]['church_id']!=0){
-									var churchId = data1[0]['bridengroom_data'][0]['church_id'];
-									$.ajax({
-										type: 'POST',
-										dataType: 'json',
-										url: '/wedding/get_church/',
-										data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'churchId':churchId}
-									}).done(function(data2){													
-										$('#church2').html(data2[0]['church_name']);
-									});
-								}
-																
-								callback3Function(id_wedding,person_id);
-							});
-							
-							
-					}
+          //close: function( event, ui ) { alert('uyit')  }
+          select: function (event, ui) {          
+            var id=ui.item.id;  
+              //console.log(name)             
+              $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/wedding/brideandgroomdetails2/',
+                data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'id':id}
+              }).done(function(data1) {                               
+                //console.log(data1)
+                var person_id = data1[0]['bridengroom_data'][0]['id'];
+                var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
+                $('#full_name2').html(full_name);
+                $('#email2').html(data1[0]['bridengroom_data'][0]['email']);
+                var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];           
+                if(proof_id==1){
+                  proof_id = 'Passport';
+                }else if(proof_id==2){
+                  proof_id = 'Driver License';
+                }else if(proof_id==3){
+                  proof_id = 'Birth Certificate';
+                }
+                $('#proof_id2').html(proof_id);
+                $('#phone2').html(data1[0]['bridengroom_data'][0]['phone']);
+                $('#dob2').html(data1[0]['bridengroom_data'][0]['dob']);
+                $('#occupation2').html(data1[0]['bridengroom_data'][0]['occupation']);
+                $('#status2').html(data1[0]['bridengroom_data'][0]['status']);
+                $('#nationality2').html(data1[0]['bridengroom_data'][0]['nationality']);
+                //$('#church2').html(data1[0]['bridengroom_data'][0]['church_id']);
+                if(data1[0]['bridengroom_data'][0]['church_id'] !='' && data1[0]['bridengroom_data'][0]['church_id']!=0){
+                  var churchId = data1[0]['bridengroom_data'][0]['church_id'];
+                  $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/wedding/get_church/',
+                    data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'churchId':churchId}
+                  }).done(function(data2){                          
+                    $('#church2').html(data2[0]['church_name']);
+                  });
+                }
+                                
+                callback3Function(id_wedding,person_id);
+              });
+              
+              
+          }
                 });     
 
-				function callback3Function(value,value2){
-					var weddingId=value;
-					var personId=value2;					
-					$.ajax({
-							type: 'POST',
-							dataType: 'json',
-							url: '/wedding/auto_update_wedding_id2/',
-							data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':weddingId,'personId':personId}
-						}).done(function(data2) {
-							//console.log(data2)	
-						});
-						
-				}
+        function callback3Function(value,value2){
+          var weddingId=value;
+          var personId=value2;          
+          $.ajax({
+              type: 'POST',
+              dataType: 'json',
+              url: '/wedding/auto_update_wedding_id2/',
+              data: {'csrfmiddlewaretoken':$( '[name="csrfmiddlewaretoken"]' ).val(),'weddingId':weddingId,'personId':personId}
+            }).done(function(data2) {
+              //console.log(data2)  
+            });
+            
+        }
             }
         }); 
-		
+    
     });
 	
 	

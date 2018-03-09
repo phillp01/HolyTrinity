@@ -11,7 +11,7 @@ from django.urls import reverse
 
 from .models import Person
 from .forms import PersonForm
-from .forms import WeddingForm, ReadingForm, HymnForm
+from .forms import WeddingForm, WeddingShortForm, ReadingForm, HymnForm
 #from .models import Wedding, ServiceReading, ServiceHymn, additionalServices
 from .models import Wedding, ServiceReading, ServiceHymn
 from main_app.models import Person,Church,Ministers
@@ -35,9 +35,9 @@ def weddings(request):
 
 def wedding_create(request):
     if request.method == 'POST':
-        form = WeddingForm(request.POST)
+        form = WeddingShortForm(request.POST)
     else:
-        form = WeddingForm()
+        form = WeddingShortForm()
         #form.fields['minister'].queryset = Person.objects.filter(role=2) #Shows only Ministers
     return save_form(request, form, 'includes/partial_wedding_create.html', 'includes/partial_wedding_list.html', Wedding)
 
@@ -249,23 +249,29 @@ def bride_create(request, pk):
 
 def autocomplete(request):
     if request.is_ajax():
-        queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
+        #queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
+        queryset = Person.objects.all()
+        for term in request.GET.get('search', None).split():
+            queryset = queryset.filter( (Q(first_name__icontains = term) | Q(last_name__icontains = term))&(Q(role = request.GET.get('role', None))) )
+        #return qs
         #queryset = Person.objects.all()
         #queryset = list(Person.objects.filter(first_name__startswith=request.GET.get('search', None)).values('id','first_name'));
         #queryset = Person.objects.filter(first_name__startswith=request.GET.get('search', None))
     
     list = []        
-    for i in queryset:            
-            list.append(i.id)            
-            list.append(i.first_name)            
+    for i in queryset:   
+            dict = {'id':i.id, 'label':i.first_name+' '+i.last_name, 'value':i.first_name+' '+i.last_name}
+            list.append(dict)            
+            #list.append(i.id)            
+            #list.append(i.first_name+' '+i.last_name)            
     data = {
             'list': list,
         }
     return JsonResponse(data)
 
 def brideandgroomdetails(request):
-    name = request.POST['name'];
-    bridengroom_data = list(Person.objects.filter(first_name=name).values());
+    id = request.POST['id'];
+    bridengroom_data = list(Person.objects.filter(id=id).values());
     #return HttpResponse(bridengroom_data)
     data = [{'bridengroom_data':bridengroom_data}]  
     return JsonResponse(data, safe=False)
@@ -285,8 +291,8 @@ def auto_update_wedding_id(request):
         return JsonResponse(data, safe=False)
 	
 def brideandgroomdetails2(request):
-    name = request.POST['name'];
-    bridengroom_data = list(Person.objects.filter(first_name=name).values());   
+    id = request.POST['id'];
+    bridengroom_data = list(Person.objects.filter(id=id).values());   
     data = [{'bridengroom_data':bridengroom_data}]  
     return JsonResponse(data, safe=False)
 
