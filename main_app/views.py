@@ -53,7 +53,7 @@ def save_person_form(request, form, template_name):
     print("Context =", context)
     print("Template name =", template_name)
     # render_to_string('includes/partial_person_create.html', context, request=request)
-    data['html_form'] = render_to_string('includes/partial_person_create.html', context, request=request)
+    data['html_form'] = render_to_string(template_name, context, request=request)
     # data['html_form'] = "<div>hello</div>"
 
     return JsonResponse(data)

@@ -2,6 +2,7 @@ $(function () {
   var loadForm = function () {
     console.log("Load Form Run");
     var btn = $(this);
+
     $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
@@ -11,6 +12,7 @@ $(function () {
       },
       success: function (data) {
         console.log(data.html_form);
+
         $("#modal-CRUD").find(".modal-content").html(data.html_form);
       }
     });
@@ -28,11 +30,12 @@ $(function () {
       success: function (data) {
         if (data.form_is_valid) {
           console.log("Data is valid");
-	//alert(form);
-          // $(".js-update-table").find("tbody").html(data.html_reading_list);
             console.log("RL=", data.html_list);
           $("#" + form.attr("table-id")).find("tbody").html(data.html_list);
           $("#modal-CRUD").modal("hide");
+          if($("#bride-groom").length > 0){
+            $( "#bride-groom-tab" ).trigger( "click" );
+          }
         }
         else {
           console.log("Data form is not Valid");
@@ -50,7 +53,10 @@ $(function () {
   $("#modal-CRUD").on("submit", ".js-person-create-form", saveForm);
 
   // Update Person
+
+  //$(".js-update-person").on('click',loadForm);
   $("#people-table").on("click", ".js-update-person", loadForm);
+  $("#bride-groom").on("click", ".js-update-person", loadForm);
   $("#modal-CRUD").on("submit", ".js-person-update-form", saveForm);
 
   // Delete person

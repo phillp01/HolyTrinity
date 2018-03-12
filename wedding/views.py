@@ -15,7 +15,7 @@ from .forms import WeddingForm, WeddingShortForm, ReadingForm, HymnForm
 #from .models import Wedding, ServiceReading, ServiceHymn, additionalServices
 from .models import Wedding, ServiceReading, ServiceHymn
 from main_app.models import Person,Church,Ministers
-from main_app.views import save_form, person_create
+from main_app.views import save_form, person_create,person_update
 
 from decimal import *
 

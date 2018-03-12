@@ -105,9 +105,9 @@
               <div class="tab-pane fade" id="bride-groom" role="tabpanel" aria-labelledby="home-tab">
                 <section>
                   <h4>Bride and Groom<button type="button" class="btn btn-primary float-right js-create-person"
-				  data-url="{% url 'person_create' %}">
-					<span class="fal fa-user-plus"></span> New Person
-				  </button></h4>
+        				  data-url="{% url 'person_create' %}">
+        					<span class="fal fa-user-plus"></span> New Person
+        				  </button></h4>
                   <div class="container">
                     <div class="row form-horizontal">
                       <div class="col-sm">
@@ -118,6 +118,12 @@
                           </div>
                         </div>
                         <table class="table table-striped">
+                          <tr>
+                            <th width="40%"></th>
+                            <td>
+                              <button id="groom_button" type="button" class="btn btn-warning btn-sm js-update-person" data-url="{% url 'person_update' 1 %}"><span class="fal fa-edit"></span> Edit</button>
+                            </td>
+                          </tr>
                           <tr>
                             <th width="40%">Full Name</th>
                             <td id="full_name">{{ groom.first_name }} {{ groom.last_name }}</td>
@@ -168,6 +174,12 @@
                           </div>
                         </div>
                         <table class="table table-striped">
+                          <tr>
+                            <th width="40%"></th>
+                            <td>
+                              <button id="bride_button" type="button" class="btn btn-warning btn-sm js-update-person" data-url="{% url 'person_update' 1 %}"><span class="fal fa-edit"></span> Edit</button>
+                            </td>
+                          </tr>
                           <tr>
                             <th width="40%">Full Name</th>
                             <td id="full_name2">{{ bride.first_name }} {{ bride.last_name }}</td>
@@ -470,6 +482,7 @@ jQuery(function() {
                 var person_id = data1[0]['bridengroom_data'][0]['id'];
                 var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
                 $('#full_name').html(full_name);
+                $('#groom_button').attr('data-url','/people/'+data1[0]['bridengroom_data'][0]['id']+'/update');
                 $('#email').html(data1[0]['bridengroom_data'][0]['email']);
                 var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];
                 
@@ -562,7 +575,8 @@ jQuery(function() {
                 //console.log(data1)
                 var person_id = data1[0]['bridengroom_data'][0]['id'];
                 var full_name = data1[0]['bridengroom_data'][0]['first_name']+' '+data1[0]['bridengroom_data'][0]['last_name']
-                $('#full_name2').html(full_name);
+                $('#full_name2').html(full_name);                
+                $('#bride_button').attr('data-url','/people/'+data1[0]['bridengroom_data'][0]['id']+'/update');
                 $('#email2').html(data1[0]['bridengroom_data'][0]['email']);
                 var proof_id = data1[0]['bridengroom_data'][0]['proof_id'];           
                 if(proof_id==1){
@@ -639,7 +653,8 @@ jQuery(function() {
 			}).done(function(data1) {
 					//console.log(data1);
 					var full_name = data1[0]['first_name']+' '+data1[0]['last_name']
-					$('#full_name').html(full_name);
+          $('#full_name').html(full_name);
+					$('#groom_button').attr('data-url','/people/'+data1[0]['id']+'/update');
 					$('#email').html(data1[0]['email']);
 					var proof_id = data1[0]['proof_id'];						
 					if(proof_id==1){
@@ -679,6 +694,7 @@ jQuery(function() {
 					//console.log(data1);
 					var full_name = data1[0]['first_name']+' '+data1[0]['last_name']
 					$('#full_name2').html(full_name);
+          $('#bride_button').attr('data-url','/people/'+data1[0]['id']+'/update');
 					$('#email2').html(data1[0]['email']);
 					var proof_id = data1[0]['proof_id'];						
 					if(proof_id==1){

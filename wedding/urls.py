@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^hymns/(?P<pk>\d+)/delete$', views.hymn_delete, name="hymn_delete"),
 
     url(r'^people/(?P<pk>\d+)/create/$', views.person_create, name='person_create'),
+    
+    url(r'^people/(?P<pk>\d+)/update/$', views.person_update, name='person_update'),
 	url(r'^ajax/autocomplete/$', views.autocomplete, name='ajax_autocomplete')
 ]
 
