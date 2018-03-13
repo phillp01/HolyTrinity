@@ -67,7 +67,7 @@ class qualifyingConnections(models.Model):
 
 
 class Person(models.Model):
-    wedding_id = models.IntegerField(blank=True)
+    wedding_id = models.IntegerField()
     ROLE_CHOICES = (
         ('Groom', 'Groom'),
         ('Bride', 'Bride'),
@@ -79,9 +79,9 @@ class Person(models.Model):
     slug = models.SlugField(max_length=50, blank=True)
     phone = models.CharField(max_length=11, blank=True)
     email = models.EmailField(max_length=100, blank=True)
-    dob = models.DateField(blank=True)
-    age_at_wedding = models.IntegerField(blank=True)
-    proof = models.ForeignKey(Proofs, on_delete=models.CASCADE, related_name='proofOfId', blank=True)
+    dob = models.DateField()
+    age_at_wedding = models.IntegerField()
+    proof = models.ForeignKey(Proofs, on_delete=models.CASCADE, related_name='proofOfId')
     occupation = models.CharField(max_length=50, blank=True)
     STATUS_CHOICES = (
         ('Single', 'Sinlge'),
@@ -91,8 +91,8 @@ class Person(models.Model):
     )
     status = models.CharField(max_length=150, choices=STATUS_CHOICES, blank=True)
     nationality = models.CharField(max_length=20, blank=True)
-    church = models.ForeignKey(Church, on_delete=models.CASCADE, related_name='church', blank=True)
-    qualifying_connection = models.ForeignKey(qualifyingConnections, on_delete=models.CASCADE, related_name='qualConnect', blank=True)
+    church = models.ForeignKey(Church, on_delete=models.CASCADE, related_name='church')
+    qualifying_connection = models.ForeignKey(qualifyingConnections, on_delete=models.CASCADE, related_name='qualConnect')
     details = models.CharField(max_length=200,  blank=True)
     connected_by_marriage = models.BooleanField(default=False,  blank=True)
     if_yes_how = models.CharField(max_length=200, blank=True)
@@ -114,5 +114,3 @@ class Person(models.Model):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
-
-
